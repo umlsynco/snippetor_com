@@ -16,3 +16,34 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.code-block .token.comment {
+  color: #94a3b8;
+  font-style: italic;
+}
+.code-block .token.string {
+  color: #15803d;
+}
+.code-block .token.keyword {
+  color: #2563eb;
+  font-weight: 600;
+}
+.code-block .token.function {
+  color: #7c3aed;
+}
+.code-block .token.class-name {
+  color: #b45309;
+}
+.code-block .token.number,
+.code-block .token.boolean {
+  color: #b45309;
+}
+.code-block .token.macro,
+.code-block .token.directive-hash,
+.code-block .token.directive {
+  color: #db2777;
+}
+.code-block .token.punctuation,
+.code-block .token.operator {
+  color: #475569;
+}

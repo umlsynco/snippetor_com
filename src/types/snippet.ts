@@ -4,6 +4,12 @@ export interface SnippetNote {
   text: string
 }
 
+export interface SnippetRepo {
+  url: string
+  commitId: string
+  branch: string
+}
+
 export interface Snippet {
   title: string
   description: string
@@ -12,4 +18,5 @@ export interface Snippet {
   uml_path: string
   snippet_path: string
   notes?: SnippetNote[]
+  repo?: SnippetRepo
 }

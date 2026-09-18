@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
+import { Link } from 'react-router-dom'
 import type { Snippet } from '../types/snippet'
+import { slugify } from '../utils/slug'
 import { ChatIcon, ClockIcon, CloseIcon, CodeIcon, DiagramIcon, DocumentIcon, FilesIcon } from './icons'
 
 function formatDate(iso: string) {
@@ -11,7 +13,7 @@ function formatDate(iso: string) {
   }
 }
 
-export function SnippetDialog({ snippet, onClose }: { snippet: Snippet; onClose: () => void }) {
+export function SnippetDialog({ snippet, themeSlug, onClose }: { snippet: Snippet; themeSlug: string; onClose: () => void }) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose()
@@ -137,15 +139,14 @@ export function SnippetDialog({ snippet, onClose }: { snippet: Snippet; onClose:
             </div>
           )}
 
-          <button
-            type="button"
-            disabled
-            title="Coming soon"
-            className="mt-8 flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-lg bg-blue-600 py-3 font-semibold text-white opacity-60"
+          <Link
+            to={`/${themeSlug}/play/${slugify(snippet.title)}`}
+            onClick={onClose}
+            className="mt-8 flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700"
           >
             <CodeIcon className="h-4 w-4" />
             View with code
-          </button>
+          </Link>
         </div>
       </div>
     </div>,

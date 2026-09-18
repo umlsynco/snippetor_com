@@ -9,21 +9,26 @@
     ],
     "uml_path": "uml/01-architecture-overview.svg",
     "snippet_path": "snippets/01-architecture-overview.md",
+    "repo": {
+      "url": "https://chromium.googlesource.com/chromium/src",
+      "commitId": "test_sha",
+      "branch": "main"
+    },
     "notes": [
       {
-        "path": "weblayer/browser/browser_impl.cc",
-        "line": 12,
-        "text": "Entry point for this part of the flow."
-      },
-      {
-        "path": "weblayer/browser/tab_impl.cc",
+        "path": "path/to/file1.h",
         "line": 25,
-        "text": "Key check that gates the rest of the logic."
+        "text": "BrowserImpl owns the Tabs for a single browser window — this is where a new tab gets created."
       },
       {
-        "path": "weblayer/browser/weblayer_browser_context.cc",
-        "line": 38,
-        "text": "Where the result gets handed off to its caller."
+        "path": "path/to/file2.h",
+        "line": 27,
+        "text": "Each TabImpl wraps a content::WebContents and exposes navigation to the embedder."
+      },
+      {
+        "path": "path/to/file3.h",
+        "line": 18,
+        "text": "WebLayerBrowserContext adapts a ProfileImpl to the content-layer BrowserContext interface."
       }
     ]
   },

@@ -54,7 +54,7 @@ export function Theme() {
         </div>
       </section>
 
-      {activeSnippet && <SnippetDialog snippet={activeSnippet} onClose={() => setActiveSnippet(null)} />}
+      {activeSnippet && <SnippetDialog snippet={activeSnippet} themeSlug={topic.slug} onClose={() => setActiveSnippet(null)} />}
     </>
   )
 }
