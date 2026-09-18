@@ -3,88 +3,303 @@
     "title": "Sandbox Architecture Overview",
     "description": "Multi-layered sandboxing strategy across renderer, GPU and utility processes.",
     "modified": "2024-09-12",
-    "projects": ["Sandbox"],
+    "projects": [
+      "Sandbox"
+    ],
     "uml_path": "uml/01-sandbox-architecture-overview.svg",
-    "snippet_path": "snippets/01-sandbox-architecture-overview.md"
+    "snippet_path": "snippets/01-sandbox-architecture-overview.md",
+    "notes": [
+      {
+        "path": "sandbox/linux/services/credentials.cc",
+        "line": 12,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "content/browser/zygote_host/zygote_host_impl_linux.cc",
+        "line": 25,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "sandbox/policy/linux/bpf_renderer_policy_linux.cc",
+        "line": 38,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Zygote Process Fundamentals",
     "description": "How the zygote process forks new renderer processes efficiently.",
     "modified": "2024-08-26",
-    "projects": ["Zygote"],
+    "projects": [
+      "Zygote"
+    ],
     "uml_path": "uml/02-zygote-process-fundamentals.svg",
-    "snippet_path": "snippets/02-zygote-process-fundamentals.md"
+    "snippet_path": "snippets/02-zygote-process-fundamentals.md",
+    "notes": [
+      {
+        "path": "content/browser/zygote_host/zygote_host_impl_linux.cc",
+        "line": 19,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "sandbox/policy/linux/bpf_renderer_policy_linux.cc",
+        "line": 32,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "sandbox/linux/bpf_dsl/policy_compiler.cc",
+        "line": 45,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Linux Namespace Sandboxing",
     "description": "PID, network and mount namespace isolation on Linux.",
     "modified": "2024-08-08",
-    "projects": ["Sandbox", "Linux"],
+    "projects": [
+      "Sandbox",
+      "Linux"
+    ],
     "uml_path": "uml/03-linux-namespace-sandboxing.svg",
-    "snippet_path": "snippets/03-linux-namespace-sandboxing.md"
+    "snippet_path": "snippets/03-linux-namespace-sandboxing.md",
+    "notes": [
+      {
+        "path": "sandbox/policy/linux/bpf_renderer_policy_linux.cc",
+        "line": 26,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "sandbox/linux/bpf_dsl/policy_compiler.cc",
+        "line": 39,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "content/browser/sandbox_host_linux.cc",
+        "line": 52,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Seccomp-BPF Filters",
     "description": "System call filtering policies applied to sandboxed processes.",
     "modified": "2024-07-21",
-    "projects": ["Sandbox", "Linux"],
+    "projects": [
+      "Sandbox",
+      "Linux"
+    ],
     "uml_path": "uml/04-seccomp-bpf-filters.svg",
-    "snippet_path": "snippets/04-seccomp-bpf-filters.md"
+    "snippet_path": "snippets/04-seccomp-bpf-filters.md",
+    "notes": [
+      {
+        "path": "sandbox/linux/bpf_dsl/policy_compiler.cc",
+        "line": 33,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "content/browser/sandbox_host_linux.cc",
+        "line": 46,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "sandbox/win/src/broker_services.cc",
+        "line": 59,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Windows Sandbox (Job Objects)",
     "description": "Job objects, integrity levels and broker/target architecture on Windows.",
     "modified": "2024-07-04",
-    "projects": ["Sandbox", "Windows"],
+    "projects": [
+      "Sandbox",
+      "Windows"
+    ],
     "uml_path": "uml/05-windows-sandbox-job-objects.svg",
-    "snippet_path": "snippets/05-windows-sandbox-job-objects.md"
+    "snippet_path": "snippets/05-windows-sandbox-job-objects.md",
+    "notes": [
+      {
+        "path": "content/browser/sandbox_host_linux.cc",
+        "line": 40,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "sandbox/win/src/broker_services.cc",
+        "line": 53,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "sandbox/linux/services/credentials.cc",
+        "line": 66,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "macOS Sandbox Profiles",
     "description": "Seatbelt sandbox profiles and entitlements for macOS processes.",
     "modified": "2024-06-17",
-    "projects": ["Sandbox", "macOS"],
+    "projects": [
+      "Sandbox",
+      "macOS"
+    ],
     "uml_path": "uml/06-macos-sandbox-profiles.svg",
-    "snippet_path": "snippets/06-macos-sandbox-profiles.md"
+    "snippet_path": "snippets/06-macos-sandbox-profiles.md",
+    "notes": [
+      {
+        "path": "sandbox/win/src/broker_services.cc",
+        "line": 47,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "sandbox/linux/services/credentials.cc",
+        "line": 60,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "content/browser/zygote_host/zygote_host_impl_linux.cc",
+        "line": 73,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Android Isolated Process Sandbox",
     "description": "Isolated process sandboxing and zygote forking on Android.",
     "modified": "2024-05-31",
-    "projects": ["Sandbox", "Android"],
+    "projects": [
+      "Sandbox",
+      "Android"
+    ],
     "uml_path": "uml/07-android-isolated-process-sandbox.svg",
-    "snippet_path": "snippets/07-android-isolated-process-sandbox.md"
+    "snippet_path": "snippets/07-android-isolated-process-sandbox.md",
+    "notes": [
+      {
+        "path": "sandbox/linux/services/credentials.cc",
+        "line": 54,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "content/browser/zygote_host/zygote_host_impl_linux.cc",
+        "line": 67,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "sandbox/policy/linux/bpf_renderer_policy_linux.cc",
+        "line": 80,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Broker Process and IPC",
     "description": "How the privileged broker mediates sandboxed resource requests.",
     "modified": "2024-05-13",
-    "projects": ["Sandbox"],
+    "projects": [
+      "Sandbox"
+    ],
     "uml_path": "uml/08-broker-process-and-ipc.svg",
-    "snippet_path": "snippets/08-broker-process-and-ipc.md"
+    "snippet_path": "snippets/08-broker-process-and-ipc.md",
+    "notes": [
+      {
+        "path": "content/browser/zygote_host/zygote_host_impl_linux.cc",
+        "line": 61,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "sandbox/policy/linux/bpf_renderer_policy_linux.cc",
+        "line": 74,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "sandbox/linux/bpf_dsl/policy_compiler.cc",
+        "line": 87,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Pre-Sandbox Initialization Order",
     "description": "What must happen before a process locks down its sandbox.",
     "modified": "2024-04-25",
-    "projects": ["Sandbox"],
+    "projects": [
+      "Sandbox"
+    ],
     "uml_path": "uml/09-pre-sandbox-initialization-order.svg",
-    "snippet_path": "snippets/09-pre-sandbox-initialization-order.md"
+    "snippet_path": "snippets/09-pre-sandbox-initialization-order.md",
+    "notes": [
+      {
+        "path": "sandbox/policy/linux/bpf_renderer_policy_linux.cc",
+        "line": 68,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "sandbox/linux/bpf_dsl/policy_compiler.cc",
+        "line": 81,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "content/browser/sandbox_host_linux.cc",
+        "line": 14,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Sandbox Escapes and Mitigations",
     "description": "Common escape vectors and hardening mitigations.",
     "modified": "2024-04-07",
-    "projects": ["Sandbox", "Security"],
+    "projects": [
+      "Sandbox",
+      "Security"
+    ],
     "uml_path": "uml/10-sandbox-escapes-and-mitigations.svg",
-    "snippet_path": "snippets/10-sandbox-escapes-and-mitigations.md"
+    "snippet_path": "snippets/10-sandbox-escapes-and-mitigations.md",
+    "notes": [
+      {
+        "path": "sandbox/linux/bpf_dsl/policy_compiler.cc",
+        "line": 75,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "content/browser/sandbox_host_linux.cc",
+        "line": 88,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "sandbox/win/src/broker_services.cc",
+        "line": 21,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Utility Process Sandboxing",
     "description": "Per-service sandbox policies for utility processes.",
     "modified": "2024-03-20",
-    "projects": ["Sandbox"],
+    "projects": [
+      "Sandbox"
+    ],
     "uml_path": "uml/11-utility-process-sandboxing.svg",
-    "snippet_path": "snippets/11-utility-process-sandboxing.md"
+    "snippet_path": "snippets/11-utility-process-sandboxing.md",
+    "notes": [
+      {
+        "path": "content/browser/sandbox_host_linux.cc",
+        "line": 82,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "sandbox/win/src/broker_services.cc",
+        "line": 15,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "sandbox/linux/services/credentials.cc",
+        "line": 28,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   }
 ]

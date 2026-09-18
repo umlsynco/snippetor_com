@@ -3,64 +3,217 @@
     "title": "Profile Creation and Initialization",
     "description": "How a new Chrome profile is created, loaded and initialized at startup.",
     "modified": "2024-09-02",
-    "projects": ["Profile"],
+    "projects": [
+      "Profile"
+    ],
     "uml_path": "uml/01-creation-and-initialization.svg",
-    "snippet_path": "snippets/01-creation-and-initialization.md"
+    "snippet_path": "snippets/01-creation-and-initialization.md",
+    "notes": [
+      {
+        "path": "chrome/browser/profiles/profile.cc",
+        "line": 12,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "chrome/browser/profiles/profile_manager.cc",
+        "line": 25,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "chrome/browser/profiles/off_the_record_profile_impl.cc",
+        "line": 38,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Off-the-Record (Incognito) Profiles",
     "description": "Lifecycle differences and storage isolation for incognito profiles.",
     "modified": "2024-08-11",
-    "projects": ["Profile"],
+    "projects": [
+      "Profile"
+    ],
     "uml_path": "uml/02-otr-incognito-profiles.svg",
-    "snippet_path": "snippets/02-otr-incognito-profiles.md"
+    "snippet_path": "snippets/02-otr-incognito-profiles.md",
+    "notes": [
+      {
+        "path": "chrome/browser/profiles/profile_manager.cc",
+        "line": 19,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "chrome/browser/profiles/off_the_record_profile_impl.cc",
+        "line": 32,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "components/keyed_service/core/keyed_service_factory.cc",
+        "line": 45,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Profile Manager and Multi-Profile Support",
     "description": "Managing multiple profiles, switching and avatar menu integration.",
     "modified": "2024-07-25",
-    "projects": ["Profile"],
+    "projects": [
+      "Profile"
+    ],
     "uml_path": "uml/03-profile-manager.svg",
-    "snippet_path": "snippets/03-profile-manager.md"
+    "snippet_path": "snippets/03-profile-manager.md",
+    "notes": [
+      {
+        "path": "chrome/browser/profiles/off_the_record_profile_impl.cc",
+        "line": 26,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "components/keyed_service/core/keyed_service_factory.cc",
+        "line": 39,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "chrome/browser/profiles/profile_impl.cc",
+        "line": 52,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "KeyedService and Profile-Scoped Services",
     "description": "How KeyedServiceFactory ties services to a Profile's lifetime.",
     "modified": "2024-07-08",
-    "projects": ["Profile"],
+    "projects": [
+      "Profile"
+    ],
     "uml_path": "uml/04-keyed-service-factory.svg",
-    "snippet_path": "snippets/04-keyed-service-factory.md"
+    "snippet_path": "snippets/04-keyed-service-factory.md",
+    "notes": [
+      {
+        "path": "components/keyed_service/core/keyed_service_factory.cc",
+        "line": 33,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "chrome/browser/profiles/profile_impl.cc",
+        "line": 46,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "chrome/browser/profiles/profile_attributes_storage.cc",
+        "line": 59,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Profile Destruction and Cleanup",
     "description": "Shutdown sequence, pending writes and resource teardown for profiles.",
     "modified": "2024-06-19",
-    "projects": ["Profile"],
+    "projects": [
+      "Profile"
+    ],
     "uml_path": "uml/05-destruction-and-cleanup.svg",
-    "snippet_path": "snippets/05-destruction-and-cleanup.md"
+    "snippet_path": "snippets/05-destruction-and-cleanup.md",
+    "notes": [
+      {
+        "path": "chrome/browser/profiles/profile_impl.cc",
+        "line": 40,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "chrome/browser/profiles/profile_attributes_storage.cc",
+        "line": 53,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "chrome/browser/profiles/profile.cc",
+        "line": 66,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Guest Profiles",
     "description": "Ephemeral guest sessions and their storage constraints.",
     "modified": "2024-06-01",
-    "projects": ["Profile"],
+    "projects": [
+      "Profile"
+    ],
     "uml_path": "uml/06-guest-profiles.svg",
-    "snippet_path": "snippets/06-guest-profiles.md"
+    "snippet_path": "snippets/06-guest-profiles.md",
+    "notes": [
+      {
+        "path": "chrome/browser/profiles/profile_attributes_storage.cc",
+        "line": 47,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "chrome/browser/profiles/profile.cc",
+        "line": 60,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "chrome/browser/profiles/profile_manager.cc",
+        "line": 73,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Profile Prefs and PrefService",
     "description": "How preferences are scoped, registered and persisted per profile.",
     "modified": "2024-05-14",
-    "projects": ["Profile"],
+    "projects": [
+      "Profile"
+    ],
     "uml_path": "uml/07-prefs-and-prefservice.svg",
-    "snippet_path": "snippets/07-prefs-and-prefservice.md"
+    "snippet_path": "snippets/07-prefs-and-prefservice.md",
+    "notes": [
+      {
+        "path": "chrome/browser/profiles/profile.cc",
+        "line": 54,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "chrome/browser/profiles/profile_manager.cc",
+        "line": 67,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "chrome/browser/profiles/off_the_record_profile_impl.cc",
+        "line": 80,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Profile Picker UI",
     "description": "Startup profile picker flow and its integration with profile manager.",
     "modified": "2024-04-26",
-    "projects": ["Profile", "WebUI"],
+    "projects": [
+      "Profile",
+      "WebUI"
+    ],
     "uml_path": "uml/08-profile-picker-ui.svg",
-    "snippet_path": "snippets/08-profile-picker-ui.md"
+    "snippet_path": "snippets/08-profile-picker-ui.md",
+    "notes": [
+      {
+        "path": "chrome/browser/profiles/profile_manager.cc",
+        "line": 61,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "chrome/browser/profiles/off_the_record_profile_impl.cc",
+        "line": 74,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "components/keyed_service/core/keyed_service_factory.cc",
+        "line": 87,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   }
 ]

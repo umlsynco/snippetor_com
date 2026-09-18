@@ -1,14 +1,18 @@
+import { useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { Breadcrumb } from '../components/Breadcrumb'
 import { SnippetCard } from '../components/SnippetCard'
+import { SnippetDialog } from '../components/SnippetDialog'
 import { TopicGraphic } from '../components/TopicGraphic'
 import { getTopic } from '../data/topics'
 import { getSnippets } from '../data/snippets'
+import type { Snippet } from '../types/snippet'
 import { topicColorClasses, topicIcons } from '../utils/topicVisuals'
 
 export function Theme() {
   const { theme } = useParams<{ theme: string }>()
   const topic = theme ? getTopic(theme) : undefined
+  const [activeSnippet, setActiveSnippet] = useState<Snippet | null>(null)
 
   if (!topic) {
     return <Navigate to="/" replace />
@@ -44,11 +48,13 @@ export function Theme() {
         <div className="mx-auto max-w-6xl px-6 py-12">
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {snippets.map((snippet) => (
-              <SnippetCard key={snippet.snippet_path} snippet={snippet} />
+              <SnippetCard key={snippet.snippet_path} snippet={snippet} onOpen={setActiveSnippet} />
             ))}
           </div>
         </div>
       </section>
+
+      {activeSnippet && <SnippetDialog snippet={activeSnippet} onClose={() => setActiveSnippet(null)} />}
     </>
   )
 }

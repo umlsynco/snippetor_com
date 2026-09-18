@@ -3,72 +3,245 @@
     "title": "WebUI Architecture Overview",
     "description": "How chrome:// pages are structured, from C++ handlers to Polymer/Lit UI.",
     "modified": "2024-09-01",
-    "projects": ["WebUI"],
+    "projects": [
+      "WebUI"
+    ],
     "uml_path": "uml/01-webui-architecture-overview.svg",
-    "snippet_path": "snippets/01-webui-architecture-overview.md"
+    "snippet_path": "snippets/01-webui-architecture-overview.md",
+    "notes": [
+      {
+        "path": "content/public/browser/web_ui_controller.h",
+        "line": 12,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "content/browser/webui/web_ui_impl.cc",
+        "line": 25,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "ui/webui/resources/js/browser_command/browser_command.ts",
+        "line": 38,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "WebUIController and Data Sources",
     "description": "Registering a WebUIController and serving resources via DataSource.",
     "modified": "2024-08-14",
-    "projects": ["WebUI"],
+    "projects": [
+      "WebUI"
+    ],
     "uml_path": "uml/02-webuicontroller-data-sources.svg",
-    "snippet_path": "snippets/02-webuicontroller-data-sources.md"
+    "snippet_path": "snippets/02-webuicontroller-data-sources.md",
+    "notes": [
+      {
+        "path": "content/browser/webui/web_ui_impl.cc",
+        "line": 19,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "ui/webui/resources/js/browser_command/browser_command.ts",
+        "line": 32,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "chrome/browser/ui/webui/settings/settings_ui.cc",
+        "line": 45,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Message Handlers and JS Bridge",
     "description": "How WebUI pages call back into C++ via chrome.send and message handlers.",
     "modified": "2024-07-28",
-    "projects": ["WebUI"],
+    "projects": [
+      "WebUI"
+    ],
     "uml_path": "uml/03-message-handlers-js-bridge.svg",
-    "snippet_path": "snippets/03-message-handlers-js-bridge.md"
+    "snippet_path": "snippets/03-message-handlers-js-bridge.md",
+    "notes": [
+      {
+        "path": "ui/webui/resources/js/browser_command/browser_command.ts",
+        "line": 26,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "chrome/browser/ui/webui/settings/settings_ui.cc",
+        "line": 39,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "content/browser/webui/web_ui_data_source_impl.cc",
+        "line": 52,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Polymer to Lit Migration",
     "description": "Migrating legacy Polymer WebUI components to Lit.",
     "modified": "2024-07-11",
-    "projects": ["WebUI"],
+    "projects": [
+      "WebUI"
+    ],
     "uml_path": "uml/04-polymer-to-lit-migration.svg",
-    "snippet_path": "snippets/04-polymer-to-lit-migration.md"
+    "snippet_path": "snippets/04-polymer-to-lit-migration.md",
+    "notes": [
+      {
+        "path": "chrome/browser/ui/webui/settings/settings_ui.cc",
+        "line": 33,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "content/browser/webui/web_ui_data_source_impl.cc",
+        "line": 46,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "chrome/browser/ui/webui/webui_util.cc",
+        "line": 59,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Mojo Bindings for WebUI",
     "description": "Using Mojo interfaces to communicate between WebUI JS and the browser.",
     "modified": "2024-06-24",
-    "projects": ["WebUI"],
+    "projects": [
+      "WebUI"
+    ],
     "uml_path": "uml/05-mojo-bindings-for-webui.svg",
-    "snippet_path": "snippets/05-mojo-bindings-for-webui.md"
+    "snippet_path": "snippets/05-mojo-bindings-for-webui.md",
+    "notes": [
+      {
+        "path": "content/browser/webui/web_ui_data_source_impl.cc",
+        "line": 40,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "chrome/browser/ui/webui/webui_util.cc",
+        "line": 53,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "content/public/browser/web_ui_controller.h",
+        "line": 66,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "WebUI Resource Bundling (GRD/GRIT)",
     "description": "How WebUI resources are packaged and referenced via grd files.",
     "modified": "2024-06-06",
-    "projects": ["WebUI"],
+    "projects": [
+      "WebUI"
+    ],
     "uml_path": "uml/06-resource-bundling-grd-grit.svg",
-    "snippet_path": "snippets/06-resource-bundling-grd-grit.md"
+    "snippet_path": "snippets/06-resource-bundling-grd-grit.md",
+    "notes": [
+      {
+        "path": "chrome/browser/ui/webui/webui_util.cc",
+        "line": 47,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "content/public/browser/web_ui_controller.h",
+        "line": 60,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "content/browser/webui/web_ui_impl.cc",
+        "line": 73,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Untrusted WebUI Origins",
     "description": "Isolating chrome-untrusted:// content from privileged WebUI.",
     "modified": "2024-05-19",
-    "projects": ["WebUI", "Security"],
+    "projects": [
+      "WebUI",
+      "Security"
+    ],
     "uml_path": "uml/07-untrusted-webui-origins.svg",
-    "snippet_path": "snippets/07-untrusted-webui-origins.md"
+    "snippet_path": "snippets/07-untrusted-webui-origins.md",
+    "notes": [
+      {
+        "path": "content/public/browser/web_ui_controller.h",
+        "line": 54,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "content/browser/webui/web_ui_impl.cc",
+        "line": 67,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "ui/webui/resources/js/browser_command/browser_command.ts",
+        "line": 80,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Settings Page Architecture",
     "description": "Structure of chrome://settings and its section-based routing.",
     "modified": "2024-05-01",
-    "projects": ["WebUI"],
+    "projects": [
+      "WebUI"
+    ],
     "uml_path": "uml/08-settings-page-architecture.svg",
-    "snippet_path": "snippets/08-settings-page-architecture.md"
+    "snippet_path": "snippets/08-settings-page-architecture.md",
+    "notes": [
+      {
+        "path": "content/browser/webui/web_ui_impl.cc",
+        "line": 61,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "ui/webui/resources/js/browser_command/browser_command.ts",
+        "line": 74,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "chrome/browser/ui/webui/settings/settings_ui.cc",
+        "line": 87,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "WebUI Testing with BrowserTests",
     "description": "Writing C++ browser tests that exercise WebUI JS behavior.",
     "modified": "2024-04-14",
-    "projects": ["WebUI", "Testing"],
+    "projects": [
+      "WebUI",
+      "Testing"
+    ],
     "uml_path": "uml/09-webui-testing-browsertests.svg",
-    "snippet_path": "snippets/09-webui-testing-browsertests.md"
+    "snippet_path": "snippets/09-webui-testing-browsertests.md",
+    "notes": [
+      {
+        "path": "ui/webui/resources/js/browser_command/browser_command.ts",
+        "line": 68,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "chrome/browser/ui/webui/settings/settings_ui.cc",
+        "line": 81,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "content/browser/webui/web_ui_data_source_impl.cc",
+        "line": 14,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   }
 ]

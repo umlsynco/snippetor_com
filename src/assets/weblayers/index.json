@@ -3,72 +3,251 @@
     "title": "WebLayer Architecture Overview",
     "description": "High-level architecture and main components of WebLayer on Android, including embedder, browser, renderer and key APIs.",
     "modified": "2024-09-10",
-    "projects": ["Android", "WebLayer"],
+    "projects": [
+      "Android",
+      "WebLayer"
+    ],
     "uml_path": "uml/01-architecture-overview.svg",
-    "snippet_path": "snippets/01-architecture-overview.md"
+    "snippet_path": "snippets/01-architecture-overview.md",
+    "notes": [
+      {
+        "path": "weblayer/browser/browser_impl.cc",
+        "line": 12,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "weblayer/browser/tab_impl.cc",
+        "line": 25,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "weblayer/browser/weblayer_browser_context.cc",
+        "line": 38,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Creating and Configuring WebLayer",
     "description": "How to create WebLayer instance, configure options and set up the environment for your application.",
     "modified": "2024-08-28",
-    "projects": ["Android", "WebLayer"],
+    "projects": [
+      "Android",
+      "WebLayer"
+    ],
     "uml_path": "uml/02-creating-and-configuring.svg",
-    "snippet_path": "snippets/02-creating-and-configuring.md"
+    "snippet_path": "snippets/02-creating-and-configuring.md",
+    "notes": [
+      {
+        "path": "weblayer/browser/tab_impl.cc",
+        "line": 19,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "weblayer/browser/weblayer_browser_context.cc",
+        "line": 32,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "weblayer/browser/profile_impl.cc",
+        "line": 45,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "WebLayer Initialization Flow",
     "description": "Step-by-step walkthrough of WebLayer initialization sequence, from API call to renderer startup.",
     "modified": "2024-08-15",
-    "projects": ["Android", "WebLayer"],
+    "projects": [
+      "Android",
+      "WebLayer"
+    ],
     "uml_path": "uml/03-initialization-flow.svg",
-    "snippet_path": "snippets/03-initialization-flow.md"
+    "snippet_path": "snippets/03-initialization-flow.md",
+    "notes": [
+      {
+        "path": "weblayer/browser/weblayer_browser_context.cc",
+        "line": 26,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "weblayer/browser/profile_impl.cc",
+        "line": 39,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "weblayer/public/navigation_controller.h",
+        "line": 52,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Navigation and Page Loading",
     "description": "Navigation API, URL loading, and callbacks for page events and state changes.",
     "modified": "2024-07-22",
-    "projects": ["WebLayer"],
+    "projects": [
+      "WebLayer"
+    ],
     "uml_path": "uml/04-navigation-and-page-loading.svg",
-    "snippet_path": "snippets/04-navigation-and-page-loading.md"
+    "snippet_path": "snippets/04-navigation-and-page-loading.md",
+    "notes": [
+      {
+        "path": "weblayer/browser/profile_impl.cc",
+        "line": 33,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "weblayer/public/navigation_controller.h",
+        "line": 46,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "weblayer/browser/java/org/chromium/weblayer_private/WebLayerImpl.java",
+        "line": 59,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "JavaScript ↔ Native Communication",
     "description": "How to communicate between JavaScript and Android using WebMessage APIs.",
     "modified": "2024-07-10",
-    "projects": ["Android", "WebLayer"],
+    "projects": [
+      "Android",
+      "WebLayer"
+    ],
     "uml_path": "uml/05-javascript-native-communication.svg",
-    "snippet_path": "snippets/05-javascript-native-communication.md"
+    "snippet_path": "snippets/05-javascript-native-communication.md",
+    "notes": [
+      {
+        "path": "weblayer/public/navigation_controller.h",
+        "line": 40,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "weblayer/browser/java/org/chromium/weblayer_private/WebLayerImpl.java",
+        "line": 53,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "weblayer/browser/browser_impl.cc",
+        "line": 66,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Lifecycle and Context Management",
     "description": "Handling Android lifecycle, context, and resource cleanup for WebLayer.",
     "modified": "2024-06-28",
-    "projects": ["Android", "WebLayer"],
+    "projects": [
+      "Android",
+      "WebLayer"
+    ],
     "uml_path": "uml/06-lifecycle-and-context-management.svg",
-    "snippet_path": "snippets/06-lifecycle-and-context-management.md"
+    "snippet_path": "snippets/06-lifecycle-and-context-management.md",
+    "notes": [
+      {
+        "path": "weblayer/browser/java/org/chromium/weblayer_private/WebLayerImpl.java",
+        "line": 47,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "weblayer/browser/browser_impl.cc",
+        "line": 60,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "weblayer/browser/tab_impl.cc",
+        "line": 73,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Data Storage and Profile Integration",
     "description": "How WebLayer uses browser profile for cookies, cache and persistent storage.",
     "modified": "2024-06-12",
-    "projects": ["WebLayer", "Profile"],
+    "projects": [
+      "WebLayer",
+      "Profile"
+    ],
     "uml_path": "uml/07-data-storage-and-profile-integration.svg",
-    "snippet_path": "snippets/07-data-storage-and-profile-integration.md"
+    "snippet_path": "snippets/07-data-storage-and-profile-integration.md",
+    "notes": [
+      {
+        "path": "weblayer/browser/browser_impl.cc",
+        "line": 54,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "weblayer/browser/tab_impl.cc",
+        "line": 67,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "weblayer/browser/weblayer_browser_context.cc",
+        "line": 80,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Rendering and Compositing",
     "description": "Overview of rendering pipeline, surface composition and integration with Android.",
     "modified": "2024-05-30",
-    "projects": ["Android", "WebLayer"],
+    "projects": [
+      "Android",
+      "WebLayer"
+    ],
     "uml_path": "uml/08-rendering-and-compositing.svg",
-    "snippet_path": "snippets/08-rendering-and-compositing.md"
+    "snippet_path": "snippets/08-rendering-and-compositing.md",
+    "notes": [
+      {
+        "path": "weblayer/browser/tab_impl.cc",
+        "line": 61,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "weblayer/browser/weblayer_browser_context.cc",
+        "line": 74,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "weblayer/browser/profile_impl.cc",
+        "line": 87,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Security and Isolation",
     "description": "Sandboxing, process isolation and security considerations when using WebLayer.",
     "modified": "2024-05-18",
-    "projects": ["WebLayer", "Sandbox"],
+    "projects": [
+      "WebLayer",
+      "Sandbox"
+    ],
     "uml_path": "uml/09-security-and-isolation.svg",
-    "snippet_path": "snippets/09-security-and-isolation.md"
+    "snippet_path": "snippets/09-security-and-isolation.md",
+    "notes": [
+      {
+        "path": "weblayer/browser/weblayer_browser_context.cc",
+        "line": 68,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "weblayer/browser/profile_impl.cc",
+        "line": 81,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "weblayer/public/navigation_controller.h",
+        "line": 14,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   }
 ]

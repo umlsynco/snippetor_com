@@ -91,3 +91,75 @@ export function ArrowRightIcon(props: IconProps) {
     </svg>
   )
 }
+
+export function PlayIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" {...props}>
+      <path d="M9 6.5c0-1.15 1.25-1.86 2.24-1.27l7.5 4.5a1.48 1.48 0 0 1 0 2.54l-7.5 4.5C10.25 17.36 9 16.65 9 15.5v-9Z" />
+    </svg>
+  )
+}
+
+export function CloseIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M6 6l12 12M18 6 6 18" />
+    </svg>
+  )
+}
+
+export function DocumentIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" />
+      <path d="M14 3v4h4" />
+      <path d="M9 13h6M9 16.5h6" />
+    </svg>
+  )
+}
+
+export function ChatIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7A2.5 2.5 0 0 1 17.5 16H10l-4.5 4v-4H6.5A2.5 2.5 0 0 1 4 13.5v-7Z" />
+    </svg>
+  )
+}
+
+export function DiagramIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="6" cy="6" r="2.2" />
+      <circle cx="6" cy="18" r="2.2" />
+      <circle cx="18" cy="12" r="2.2" />
+      <path d="M8 7l8 4M8 17l8-4" />
+    </svg>
+  )
+}
+
+export function FilesIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M8 3h6l4 4v11a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" />
+      <path d="M13 3v4h4" />
+      <path d="M5 7v12a1 1 0 0 0 1 1h9" />
+    </svg>
+  )
+}
+
+export function ClockIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </svg>
+  )
+}
+
+export function CodeIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M9 6 3.5 12 9 18M15 6l5.5 6-5.5 6" />
+    </svg>
+  )
+}

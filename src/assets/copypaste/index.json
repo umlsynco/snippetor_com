@@ -3,56 +3,189 @@
     "title": "Clipboard Pipeline Overview",
     "description": "End-to-end flow of copy and paste across renderer, browser and OS clipboard.",
     "modified": "2024-08-30",
-    "projects": ["Copy & Paste"],
+    "projects": [
+      "Copy & Paste"
+    ],
     "uml_path": "uml/01-clipboard-pipeline-overview.svg",
-    "snippet_path": "snippets/01-clipboard-pipeline-overview.md"
+    "snippet_path": "snippets/01-clipboard-pipeline-overview.md",
+    "notes": [
+      {
+        "path": "ui/base/clipboard/clipboard.cc",
+        "line": 12,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "ui/base/clipboard/clipboard_win.cc",
+        "line": 25,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "content/browser/renderer_host/render_widget_host_impl.cc",
+        "line": 38,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Custom MIME Types and Data Formats",
     "description": "Registering and reading custom formats through the clipboard.",
     "modified": "2024-08-09",
-    "projects": ["Copy & Paste"],
+    "projects": [
+      "Copy & Paste"
+    ],
     "uml_path": "uml/02-custom-mime-types.svg",
-    "snippet_path": "snippets/02-custom-mime-types.md"
+    "snippet_path": "snippets/02-custom-mime-types.md",
+    "notes": [
+      {
+        "path": "ui/base/clipboard/clipboard_win.cc",
+        "line": 19,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "content/browser/renderer_host/render_widget_host_impl.cc",
+        "line": 32,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "third_party/blink/renderer/core/clipboard/clipboard.cc",
+        "line": 45,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Clipboard Permissions Model",
     "description": "Read/write permission prompts and secure context requirements.",
     "modified": "2024-07-17",
-    "projects": ["Copy & Paste"],
+    "projects": [
+      "Copy & Paste"
+    ],
     "uml_path": "uml/03-permissions-model.svg",
-    "snippet_path": "snippets/03-permissions-model.md"
+    "snippet_path": "snippets/03-permissions-model.md",
+    "notes": [
+      {
+        "path": "content/browser/renderer_host/render_widget_host_impl.cc",
+        "line": 26,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "third_party/blink/renderer/core/clipboard/clipboard.cc",
+        "line": 39,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "ui/base/dragdrop/os_exchange_data.cc",
+        "line": 52,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Cross-Process Data Transfer",
     "description": "How clipboard data crosses the renderer/browser process boundary.",
     "modified": "2024-06-30",
-    "projects": ["Copy & Paste"],
+    "projects": [
+      "Copy & Paste"
+    ],
     "uml_path": "uml/04-cross-process-data-transfer.svg",
-    "snippet_path": "snippets/04-cross-process-data-transfer.md"
+    "snippet_path": "snippets/04-cross-process-data-transfer.md",
+    "notes": [
+      {
+        "path": "third_party/blink/renderer/core/clipboard/clipboard.cc",
+        "line": 33,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "ui/base/dragdrop/os_exchange_data.cc",
+        "line": 46,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "ui/base/clipboard/clipboard_format_type.cc",
+        "line": 59,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Drag and Drop Integration",
     "description": "Shared data transfer paths between drag-and-drop and clipboard.",
     "modified": "2024-06-05",
-    "projects": ["Copy & Paste"],
+    "projects": [
+      "Copy & Paste"
+    ],
     "uml_path": "uml/05-drag-and-drop-integration.svg",
-    "snippet_path": "snippets/05-drag-and-drop-integration.md"
+    "snippet_path": "snippets/05-drag-and-drop-integration.md",
+    "notes": [
+      {
+        "path": "ui/base/dragdrop/os_exchange_data.cc",
+        "line": 40,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "ui/base/clipboard/clipboard_format_type.cc",
+        "line": 53,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "ui/base/clipboard/clipboard.cc",
+        "line": 66,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Platform Clipboard Differences",
     "description": "Windows, macOS, Linux and Android clipboard backend differences.",
     "modified": "2024-05-15",
-    "projects": ["Copy & Paste"],
+    "projects": [
+      "Copy & Paste"
+    ],
     "uml_path": "uml/06-platform-clipboard-differences.svg",
-    "snippet_path": "snippets/06-platform-clipboard-differences.md"
+    "snippet_path": "snippets/06-platform-clipboard-differences.md",
+    "notes": [
+      {
+        "path": "ui/base/clipboard/clipboard_format_type.cc",
+        "line": 47,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "ui/base/clipboard/clipboard.cc",
+        "line": 60,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "ui/base/clipboard/clipboard_win.cc",
+        "line": 73,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Clipboard History and Sanitization",
     "description": "How pasted content is sanitized and how clipboard history integrates.",
     "modified": "2024-04-28",
-    "projects": ["Copy & Paste"],
+    "projects": [
+      "Copy & Paste"
+    ],
     "uml_path": "uml/07-history-and-sanitization.svg",
-    "snippet_path": "snippets/07-history-and-sanitization.md"
+    "snippet_path": "snippets/07-history-and-sanitization.md",
+    "notes": [
+      {
+        "path": "ui/base/clipboard/clipboard.cc",
+        "line": 54,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "ui/base/clipboard/clipboard_win.cc",
+        "line": 67,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "content/browser/renderer_host/render_widget_host_impl.cc",
+        "line": 80,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   }
 ]

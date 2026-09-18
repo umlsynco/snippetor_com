@@ -3,80 +3,273 @@
     "title": "Network Service Architecture",
     "description": "How the out-of-process Network Service handles requests for all clients.",
     "modified": "2024-09-08",
-    "projects": ["Network"],
+    "projects": [
+      "Network"
+    ],
     "uml_path": "uml/01-network-service-architecture.svg",
-    "snippet_path": "snippets/01-network-service-architecture.md"
+    "snippet_path": "snippets/01-network-service-architecture.md",
+    "notes": [
+      {
+        "path": "services/network/network_context.cc",
+        "line": 12,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "net/url_request/url_request.cc",
+        "line": 25,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "net/cert/cert_verifier.cc",
+        "line": 38,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "URLRequest Lifecycle",
     "description": "From URLRequest creation to response delivery and cleanup.",
     "modified": "2024-08-22",
-    "projects": ["Network"],
+    "projects": [
+      "Network"
+    ],
     "uml_path": "uml/02-urlrequest-lifecycle.svg",
-    "snippet_path": "snippets/02-urlrequest-lifecycle.md"
+    "snippet_path": "snippets/02-urlrequest-lifecycle.md",
+    "notes": [
+      {
+        "path": "net/url_request/url_request.cc",
+        "line": 19,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "net/cert/cert_verifier.cc",
+        "line": 32,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "net/http/http_cache.cc",
+        "line": 45,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "HTTP Cache Overview",
     "description": "Disk and memory cache layers and how entries are read and written.",
     "modified": "2024-08-05",
-    "projects": ["Network"],
+    "projects": [
+      "Network"
+    ],
     "uml_path": "uml/03-http-cache-overview.svg",
-    "snippet_path": "snippets/03-http-cache-overview.md"
+    "snippet_path": "snippets/03-http-cache-overview.md",
+    "notes": [
+      {
+        "path": "net/cert/cert_verifier.cc",
+        "line": 26,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "net/http/http_cache.cc",
+        "line": 39,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "net/cookies/cookie_monster.cc",
+        "line": 52,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "TLS Handshake and Certificate Verification",
     "description": "How Chromium verifies server certificates and evaluates trust.",
     "modified": "2024-07-19",
-    "projects": ["Network", "SSL"],
+    "projects": [
+      "Network",
+      "SSL"
+    ],
     "uml_path": "uml/04-tls-handshake-cert-verification.svg",
-    "snippet_path": "snippets/04-tls-handshake-cert-verification.md"
+    "snippet_path": "snippets/04-tls-handshake-cert-verification.md",
+    "notes": [
+      {
+        "path": "net/http/http_cache.cc",
+        "line": 33,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "net/cookies/cookie_monster.cc",
+        "line": 46,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "net/quic/quic_stream_factory.cc",
+        "line": 59,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "SSL Error Handling and Interstitials",
     "description": "How certificate errors are surfaced to users via interstitial pages.",
     "modified": "2024-07-02",
-    "projects": ["Network", "SSL"],
+    "projects": [
+      "Network",
+      "SSL"
+    ],
     "uml_path": "uml/05-ssl-error-interstitials.svg",
-    "snippet_path": "snippets/05-ssl-error-interstitials.md"
+    "snippet_path": "snippets/05-ssl-error-interstitials.md",
+    "notes": [
+      {
+        "path": "net/cookies/cookie_monster.cc",
+        "line": 40,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "net/quic/quic_stream_factory.cc",
+        "line": 53,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "services/network/network_context.cc",
+        "line": 66,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "QUIC and HTTP/3 Support",
     "description": "Overview of QUIC transport integration in the network stack.",
     "modified": "2024-06-15",
-    "projects": ["Network"],
+    "projects": [
+      "Network"
+    ],
     "uml_path": "uml/06-quic-http3-support.svg",
-    "snippet_path": "snippets/06-quic-http3-support.md"
+    "snippet_path": "snippets/06-quic-http3-support.md",
+    "notes": [
+      {
+        "path": "net/quic/quic_stream_factory.cc",
+        "line": 47,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "services/network/network_context.cc",
+        "line": 60,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "net/url_request/url_request.cc",
+        "line": 73,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Cookie Store and SameSite Policy",
     "description": "Cookie storage, access rules and SameSite enforcement.",
     "modified": "2024-05-28",
-    "projects": ["Network"],
+    "projects": [
+      "Network"
+    ],
     "uml_path": "uml/07-cookie-store-samesite.svg",
-    "snippet_path": "snippets/07-cookie-store-samesite.md"
+    "snippet_path": "snippets/07-cookie-store-samesite.md",
+    "notes": [
+      {
+        "path": "services/network/network_context.cc",
+        "line": 54,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "net/url_request/url_request.cc",
+        "line": 67,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "net/cert/cert_verifier.cc",
+        "line": 80,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Proxy Resolution",
     "description": "PAC scripts, proxy config sources and resolution order.",
     "modified": "2024-05-10",
-    "projects": ["Network"],
+    "projects": [
+      "Network"
+    ],
     "uml_path": "uml/08-proxy-resolution.svg",
-    "snippet_path": "snippets/08-proxy-resolution.md"
+    "snippet_path": "snippets/08-proxy-resolution.md",
+    "notes": [
+      {
+        "path": "net/url_request/url_request.cc",
+        "line": 61,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "net/cert/cert_verifier.cc",
+        "line": 74,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "net/http/http_cache.cc",
+        "line": 87,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "CORS and Fetch Metadata",
     "description": "Cross-origin checks performed by the network service.",
     "modified": "2024-04-23",
-    "projects": ["Network"],
+    "projects": [
+      "Network"
+    ],
     "uml_path": "uml/09-cors-fetch-metadata.svg",
-    "snippet_path": "snippets/09-cors-fetch-metadata.md"
+    "snippet_path": "snippets/09-cors-fetch-metadata.md",
+    "notes": [
+      {
+        "path": "net/cert/cert_verifier.cc",
+        "line": 68,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "net/http/http_cache.cc",
+        "line": 81,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "net/cookies/cookie_monster.cc",
+        "line": 14,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   },
   {
     "title": "Certificate Transparency",
     "description": "How CT logs are verified as part of certificate validation.",
     "modified": "2024-04-06",
-    "projects": ["Network", "SSL"],
+    "projects": [
+      "Network",
+      "SSL"
+    ],
     "uml_path": "uml/10-certificate-transparency.svg",
-    "snippet_path": "snippets/10-certificate-transparency.md"
+    "snippet_path": "snippets/10-certificate-transparency.md",
+    "notes": [
+      {
+        "path": "net/http/http_cache.cc",
+        "line": 75,
+        "text": "Entry point for this part of the flow."
+      },
+      {
+        "path": "net/cookies/cookie_monster.cc",
+        "line": 88,
+        "text": "Key check that gates the rest of the logic."
+      },
+      {
+        "path": "net/quic/quic_stream_factory.cc",
+        "line": 21,
+        "text": "Where the result gets handed off to its caller."
+      }
+    ]
   }
 ]
