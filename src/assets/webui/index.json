@@ -1,0 +1,74 @@
+[
+  {
+    "title": "WebUI Architecture Overview",
+    "description": "How chrome:// pages are structured, from C++ handlers to Polymer/Lit UI.",
+    "modified": "2024-09-01",
+    "projects": ["WebUI"],
+    "uml_path": "uml/01-webui-architecture-overview.svg",
+    "snippet_path": "snippets/01-webui-architecture-overview.md"
+  },
+  {
+    "title": "WebUIController and Data Sources",
+    "description": "Registering a WebUIController and serving resources via DataSource.",
+    "modified": "2024-08-14",
+    "projects": ["WebUI"],
+    "uml_path": "uml/02-webuicontroller-data-sources.svg",
+    "snippet_path": "snippets/02-webuicontroller-data-sources.md"
+  },
+  {
+    "title": "Message Handlers and JS Bridge",
+    "description": "How WebUI pages call back into C++ via chrome.send and message handlers.",
+    "modified": "2024-07-28",
+    "projects": ["WebUI"],
+    "uml_path": "uml/03-message-handlers-js-bridge.svg",
+    "snippet_path": "snippets/03-message-handlers-js-bridge.md"
+  },
+  {
+    "title": "Polymer to Lit Migration",
+    "description": "Migrating legacy Polymer WebUI components to Lit.",
+    "modified": "2024-07-11",
+    "projects": ["WebUI"],
+    "uml_path": "uml/04-polymer-to-lit-migration.svg",
+    "snippet_path": "snippets/04-polymer-to-lit-migration.md"
+  },
+  {
+    "title": "Mojo Bindings for WebUI",
+    "description": "Using Mojo interfaces to communicate between WebUI JS and the browser.",
+    "modified": "2024-06-24",
+    "projects": ["WebUI"],
+    "uml_path": "uml/05-mojo-bindings-for-webui.svg",
+    "snippet_path": "snippets/05-mojo-bindings-for-webui.md"
+  },
+  {
+    "title": "WebUI Resource Bundling (GRD/GRIT)",
+    "description": "How WebUI resources are packaged and referenced via grd files.",
+    "modified": "2024-06-06",
+    "projects": ["WebUI"],
+    "uml_path": "uml/06-resource-bundling-grd-grit.svg",
+    "snippet_path": "snippets/06-resource-bundling-grd-grit.md"
+  },
+  {
+    "title": "Untrusted WebUI Origins",
+    "description": "Isolating chrome-untrusted:// content from privileged WebUI.",
+    "modified": "2024-05-19",
+    "projects": ["WebUI", "Security"],
+    "uml_path": "uml/07-untrusted-webui-origins.svg",
+    "snippet_path": "snippets/07-untrusted-webui-origins.md"
+  },
+  {
+    "title": "Settings Page Architecture",
+    "description": "Structure of chrome://settings and its section-based routing.",
+    "modified": "2024-05-01",
+    "projects": ["WebUI"],
+    "uml_path": "uml/08-settings-page-architecture.svg",
+    "snippet_path": "snippets/08-settings-page-architecture.md"
+  },
+  {
+    "title": "WebUI Testing with BrowserTests",
+    "description": "Writing C++ browser tests that exercise WebUI JS behavior.",
+    "modified": "2024-04-14",
+    "projects": ["WebUI", "Testing"],
+    "uml_path": "uml/09-webui-testing-browsertests.svg",
+    "snippet_path": "snippets/09-webui-testing-browsertests.md"
+  }
+]

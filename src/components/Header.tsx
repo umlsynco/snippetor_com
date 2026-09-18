@@ -1,17 +1,24 @@
+import { Link, NavLink } from 'react-router-dom'
 import { GithubIcon } from './icons'
 
 export function Header() {
   return (
     <header className="border-b border-slate-200 bg-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <div>
+        <Link to="/">
           <p className="text-lg font-bold tracking-tight text-slate-900">Snippetor</p>
           <p className="text-xs text-slate-500">Chromium Architecture Notes</p>
-        </div>
+        </Link>
         <nav className="flex items-center gap-6 text-sm font-medium">
-          <a href="#home" className="border-b-2 border-blue-600 pb-1 text-blue-600">
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              isActive ? 'border-b-2 border-blue-600 pb-1 text-blue-600' : 'text-slate-600 transition hover:text-slate-900'
+            }
+          >
             Home
-          </a>
+          </NavLink>
           <a href="#about" className="text-slate-600 transition hover:text-slate-900">
             About
           </a>

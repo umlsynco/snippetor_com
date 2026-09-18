@@ -1,0 +1,90 @@
+[
+  {
+    "title": "Sandbox Architecture Overview",
+    "description": "Multi-layered sandboxing strategy across renderer, GPU and utility processes.",
+    "modified": "2024-09-12",
+    "projects": ["Sandbox"],
+    "uml_path": "uml/01-sandbox-architecture-overview.svg",
+    "snippet_path": "snippets/01-sandbox-architecture-overview.md"
+  },
+  {
+    "title": "Zygote Process Fundamentals",
+    "description": "How the zygote process forks new renderer processes efficiently.",
+    "modified": "2024-08-26",
+    "projects": ["Zygote"],
+    "uml_path": "uml/02-zygote-process-fundamentals.svg",
+    "snippet_path": "snippets/02-zygote-process-fundamentals.md"
+  },
+  {
+    "title": "Linux Namespace Sandboxing",
+    "description": "PID, network and mount namespace isolation on Linux.",
+    "modified": "2024-08-08",
+    "projects": ["Sandbox", "Linux"],
+    "uml_path": "uml/03-linux-namespace-sandboxing.svg",
+    "snippet_path": "snippets/03-linux-namespace-sandboxing.md"
+  },
+  {
+    "title": "Seccomp-BPF Filters",
+    "description": "System call filtering policies applied to sandboxed processes.",
+    "modified": "2024-07-21",
+    "projects": ["Sandbox", "Linux"],
+    "uml_path": "uml/04-seccomp-bpf-filters.svg",
+    "snippet_path": "snippets/04-seccomp-bpf-filters.md"
+  },
+  {
+    "title": "Windows Sandbox (Job Objects)",
+    "description": "Job objects, integrity levels and broker/target architecture on Windows.",
+    "modified": "2024-07-04",
+    "projects": ["Sandbox", "Windows"],
+    "uml_path": "uml/05-windows-sandbox-job-objects.svg",
+    "snippet_path": "snippets/05-windows-sandbox-job-objects.md"
+  },
+  {
+    "title": "macOS Sandbox Profiles",
+    "description": "Seatbelt sandbox profiles and entitlements for macOS processes.",
+    "modified": "2024-06-17",
+    "projects": ["Sandbox", "macOS"],
+    "uml_path": "uml/06-macos-sandbox-profiles.svg",
+    "snippet_path": "snippets/06-macos-sandbox-profiles.md"
+  },
+  {
+    "title": "Android Isolated Process Sandbox",
+    "description": "Isolated process sandboxing and zygote forking on Android.",
+    "modified": "2024-05-31",
+    "projects": ["Sandbox", "Android"],
+    "uml_path": "uml/07-android-isolated-process-sandbox.svg",
+    "snippet_path": "snippets/07-android-isolated-process-sandbox.md"
+  },
+  {
+    "title": "Broker Process and IPC",
+    "description": "How the privileged broker mediates sandboxed resource requests.",
+    "modified": "2024-05-13",
+    "projects": ["Sandbox"],
+    "uml_path": "uml/08-broker-process-and-ipc.svg",
+    "snippet_path": "snippets/08-broker-process-and-ipc.md"
+  },
+  {
+    "title": "Pre-Sandbox Initialization Order",
+    "description": "What must happen before a process locks down its sandbox.",
+    "modified": "2024-04-25",
+    "projects": ["Sandbox"],
+    "uml_path": "uml/09-pre-sandbox-initialization-order.svg",
+    "snippet_path": "snippets/09-pre-sandbox-initialization-order.md"
+  },
+  {
+    "title": "Sandbox Escapes and Mitigations",
+    "description": "Common escape vectors and hardening mitigations.",
+    "modified": "2024-04-07",
+    "projects": ["Sandbox", "Security"],
+    "uml_path": "uml/10-sandbox-escapes-and-mitigations.svg",
+    "snippet_path": "snippets/10-sandbox-escapes-and-mitigations.md"
+  },
+  {
+    "title": "Utility Process Sandboxing",
+    "description": "Per-service sandbox policies for utility processes.",
+    "modified": "2024-03-20",
+    "projects": ["Sandbox"],
+    "uml_path": "uml/11-utility-process-sandboxing.svg",
+    "snippet_path": "snippets/11-utility-process-sandboxing.md"
+  }
+]

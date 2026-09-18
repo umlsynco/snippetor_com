@@ -1,0 +1,58 @@
+[
+  {
+    "title": "Clipboard Pipeline Overview",
+    "description": "End-to-end flow of copy and paste across renderer, browser and OS clipboard.",
+    "modified": "2024-08-30",
+    "projects": ["Copy & Paste"],
+    "uml_path": "uml/01-clipboard-pipeline-overview.svg",
+    "snippet_path": "snippets/01-clipboard-pipeline-overview.md"
+  },
+  {
+    "title": "Custom MIME Types and Data Formats",
+    "description": "Registering and reading custom formats through the clipboard.",
+    "modified": "2024-08-09",
+    "projects": ["Copy & Paste"],
+    "uml_path": "uml/02-custom-mime-types.svg",
+    "snippet_path": "snippets/02-custom-mime-types.md"
+  },
+  {
+    "title": "Clipboard Permissions Model",
+    "description": "Read/write permission prompts and secure context requirements.",
+    "modified": "2024-07-17",
+    "projects": ["Copy & Paste"],
+    "uml_path": "uml/03-permissions-model.svg",
+    "snippet_path": "snippets/03-permissions-model.md"
+  },
+  {
+    "title": "Cross-Process Data Transfer",
+    "description": "How clipboard data crosses the renderer/browser process boundary.",
+    "modified": "2024-06-30",
+    "projects": ["Copy & Paste"],
+    "uml_path": "uml/04-cross-process-data-transfer.svg",
+    "snippet_path": "snippets/04-cross-process-data-transfer.md"
+  },
+  {
+    "title": "Drag and Drop Integration",
+    "description": "Shared data transfer paths between drag-and-drop and clipboard.",
+    "modified": "2024-06-05",
+    "projects": ["Copy & Paste"],
+    "uml_path": "uml/05-drag-and-drop-integration.svg",
+    "snippet_path": "snippets/05-drag-and-drop-integration.md"
+  },
+  {
+    "title": "Platform Clipboard Differences",
+    "description": "Windows, macOS, Linux and Android clipboard backend differences.",
+    "modified": "2024-05-15",
+    "projects": ["Copy & Paste"],
+    "uml_path": "uml/06-platform-clipboard-differences.svg",
+    "snippet_path": "snippets/06-platform-clipboard-differences.md"
+  },
+  {
+    "title": "Clipboard History and Sanitization",
+    "description": "How pasted content is sanitized and how clipboard history integrates.",
+    "modified": "2024-04-28",
+    "projects": ["Copy & Paste"],
+    "uml_path": "uml/07-history-and-sanitization.svg",
+    "snippet_path": "snippets/07-history-and-sanitization.md"
+  }
+]

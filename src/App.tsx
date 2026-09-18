@@ -1,14 +1,17 @@
+import { Route, Routes } from 'react-router-dom'
 import { Footer } from './components/Footer'
 import { Header } from './components/Header'
-import { Hero } from './components/Hero'
-import { TopicsSection } from './components/TopicsSection'
+import { Home } from './pages/Home'
+import { Theme } from './pages/Theme'
 
 function App() {
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      <Hero />
-      <TopicsSection />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/:theme" element={<Theme />} />
+      </Routes>
       <Footer />
     </div>
   )

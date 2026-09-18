@@ -1,0 +1,74 @@
+[
+  {
+    "title": "Extension Manifest V3 Overview",
+    "description": "Structure of manifest.json, permissions model and key entry points for MV3 extensions.",
+    "modified": "2024-09-05",
+    "projects": ["Chrome Extensions"],
+    "uml_path": "uml/01-manifest-v3-overview.svg",
+    "snippet_path": "snippets/01-manifest-v3-overview.md"
+  },
+  {
+    "title": "Background Service Worker Lifecycle",
+    "description": "How the background service worker starts, sleeps and wakes for event-driven execution.",
+    "modified": "2024-08-20",
+    "projects": ["Chrome Extensions"],
+    "uml_path": "uml/02-service-worker-lifecycle.svg",
+    "snippet_path": "snippets/02-service-worker-lifecycle.md"
+  },
+  {
+    "title": "Content Scripts and Isolated Worlds",
+    "description": "Injecting content scripts, isolated JS worlds and access to the page DOM.",
+    "modified": "2024-08-02",
+    "projects": ["Chrome Extensions"],
+    "uml_path": "uml/03-content-scripts-isolated-worlds.svg",
+    "snippet_path": "snippets/03-content-scripts-isolated-worlds.md"
+  },
+  {
+    "title": "Message Passing Between Contexts",
+    "description": "runtime.sendMessage, connect ports and cross-context communication patterns.",
+    "modified": "2024-07-19",
+    "projects": ["Chrome Extensions"],
+    "uml_path": "uml/04-message-passing.svg",
+    "snippet_path": "snippets/04-message-passing.md"
+  },
+  {
+    "title": "Extension Permissions and Host Access",
+    "description": "Declaring permissions, optional permissions and host match patterns.",
+    "modified": "2024-07-01",
+    "projects": ["Chrome Extensions"],
+    "uml_path": "uml/05-permissions-and-host-access.svg",
+    "snippet_path": "snippets/05-permissions-and-host-access.md"
+  },
+  {
+    "title": "Browser Action and Popup UI",
+    "description": "Wiring up the toolbar action, popup pages and badge updates.",
+    "modified": "2024-06-14",
+    "projects": ["Chrome Extensions"],
+    "uml_path": "uml/06-browser-action-popup-ui.svg",
+    "snippet_path": "snippets/06-browser-action-popup-ui.md"
+  },
+  {
+    "title": "Storage APIs for Extensions",
+    "description": "chrome.storage.local vs sync, quotas and migration strategies.",
+    "modified": "2024-05-27",
+    "projects": ["Chrome Extensions"],
+    "uml_path": "uml/07-storage-apis.svg",
+    "snippet_path": "snippets/07-storage-apis.md"
+  },
+  {
+    "title": "Extension Update and Install Flow",
+    "description": "How Chrome installs, updates and verifies extension packages.",
+    "modified": "2024-05-09",
+    "projects": ["Chrome Extensions"],
+    "uml_path": "uml/08-update-and-install-flow.svg",
+    "snippet_path": "snippets/08-update-and-install-flow.md"
+  },
+  {
+    "title": "Debugging Extensions with DevTools",
+    "description": "Inspecting background workers, content scripts and service worker logs.",
+    "modified": "2024-04-21",
+    "projects": ["Chrome Extensions", "DevTools"],
+    "uml_path": "uml/09-debugging-with-devtools.svg",
+    "snippet_path": "snippets/09-debugging-with-devtools.md"
+  }
+]
