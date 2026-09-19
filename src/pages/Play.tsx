@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { CodeViewer } from '../components/CodeViewer'
-import { SnippetComment } from '../components/SnippetComment'
 import { SnippetNotes } from '../components/SnippetNotes'
+import { CodeCommentServiceProvider, useCodeCommentService } from '../context/CodeCommentContext'
 import { getTopic, type Topic } from '../data/topics'
 import { useSnippetDetail } from '../hooks/useSnippetDetail'
 import { useSnippets } from '../hooks/useSnippets'
@@ -22,6 +22,10 @@ function resolveRepo(content: SnippetContent): SnippetRepo {
   return (rid !== undefined ? repoById.get(rid) : undefined) ?? content.repos?.[0] ?? DEFAULT_REPO
 }
 
+const MIN_SIDEBAR_WIDTH = 260
+const MAX_SIDEBAR_WIDTH = 560
+const DEFAULT_SIDEBAR_WIDTH = 320
+
 function PlayView({ topic, content }: { topic: Topic; content: SnippetContent }) {
   const notes = content.notes ?? []
   const repo = resolveRepo(content)
@@ -32,7 +36,49 @@ function PlayView({ topic, content }: { topic: Topic; content: SnippetContent })
   const [activePath, setActivePath] = useState<string | undefined>(uniquePaths[0])
   const [commentVisible, setCommentVisible] = useState(true)
 
+  const [sidebarWidth, setSidebarWidth] = useState(DEFAULT_SIDEBAR_WIDTH)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const isResizing = useRef(false)
+
+  const commentService = useCodeCommentService()
   const activeNote = notes[activeIndex]
+
+  // The dialog itself is now owned by whichever CodePreview matches the
+  // active note's path — this just issues show/hide commands to the service.
+  useEffect(() => {
+    if (!activeNote || !commentVisible) {
+      commentService.hide()
+      return
+    }
+    commentService.show({
+      path: activeNote.path,
+      line: activeNote.line,
+      note: activeNote,
+      repo,
+      index: activeIndex,
+      total: notes.length,
+      onPrev: () => selectNote(activeIndex - 1),
+      onNext: () => selectNote(activeIndex + 1),
+      onClose: () => setCommentVisible(false),
+    })
+  }, [commentService, activeNote, commentVisible, activeIndex, notes.length, repo])
+
+  function handleResizerPointerDown(event: React.PointerEvent<HTMLDivElement>) {
+    isResizing.current = true
+    event.currentTarget.setPointerCapture(event.pointerId)
+  }
+
+  function handleResizerPointerMove(event: React.PointerEvent<HTMLDivElement>) {
+    if (!isResizing.current || !containerRef.current) return
+    const { left } = containerRef.current.getBoundingClientRect()
+    const nextWidth = event.clientX - left
+    setSidebarWidth(Math.min(MAX_SIDEBAR_WIDTH, Math.max(MIN_SIDEBAR_WIDTH, nextWidth)))
+  }
+
+  function handleResizerPointerUp(event: React.PointerEvent<HTMLDivElement>) {
+    isResizing.current = false
+    event.currentTarget.releasePointerCapture(event.pointerId)
+  }
 
   function selectNote(index: number) {
     setActiveIndex(index)
@@ -53,8 +99,8 @@ function PlayView({ topic, content }: { topic: Topic; content: SnippetContent })
 
   return (
     <div className="flex h-screen flex-col bg-slate-50">
-      <div className="flex flex-1 overflow-hidden">
-        <div className="w-80 shrink-0">
+      <div ref={containerRef} className="flex flex-1 overflow-hidden">
+        <div className="shrink-0 p-3" style={{ width: sidebarWidth }}>
           <SnippetNotes
             backHref={`/${topic.slug}`}
             title={topic.pageTitle}
@@ -65,6 +111,17 @@ function PlayView({ topic, content }: { topic: Topic; content: SnippetContent })
           />
         </div>
 
+        <div
+          role="separator"
+          aria-orientation="vertical"
+          onPointerDown={handleResizerPointerDown}
+          onPointerMove={handleResizerPointerMove}
+          onPointerUp={handleResizerPointerUp}
+          className="group relative w-2 shrink-0 cursor-col-resize touch-none select-none"
+        >
+          <div className="absolute left-1/2 top-1/2 h-10 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full bg-slate-300 transition group-hover:bg-blue-400 group-active:bg-blue-500" />
+        </div>
+
         <div className="relative min-w-0 flex-1 p-4">
           {notes.length > 0 ? (
             <CodeViewer
@@ -73,25 +130,11 @@ function PlayView({ topic, content }: { topic: Topic; content: SnippetContent })
               onSelectTab={setActivePath}
               onCloseTab={closeTab}
               repo={repo}
-              highlightPath={activeNote?.path}
-              highlightLine={activeNote?.line}
             />
           ) : (
             <div className="flex h-full items-center justify-center text-sm text-slate-400">
               No steps recorded for this snippet yet.
             </div>
-          )}
-
-          {commentVisible && activeNote && (
-            <SnippetComment
-              note={activeNote}
-              repo={repo}
-              index={activeIndex}
-              total={notes.length}
-              onPrev={() => selectNote(activeIndex - 1)}
-              onNext={() => selectNote(activeIndex + 1)}
-              onClose={() => setCommentVisible(false)}
-            />
           )}
         </div>
       </div>
@@ -135,5 +178,9 @@ function PlayDetail({ topic, theme, snippetPath }: { topic: Topic; theme: string
     return <div className="flex h-screen items-center justify-center text-sm text-slate-400">{detailState.message}</div>
   }
 
-  return <PlayView topic={topic} content={detailState.content} />
+  return (
+    <CodeCommentServiceProvider>
+      <PlayView topic={topic} content={detailState.content} />
+    </CodeCommentServiceProvider>
+  )
 }

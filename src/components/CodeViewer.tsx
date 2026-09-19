@@ -14,16 +14,12 @@ export function CodeViewer({
   onSelectTab,
   onCloseTab,
   repo,
-  highlightPath,
-  highlightLine,
 }: {
   openPaths: string[]
   activePath: string | undefined
   onSelectTab: (path: string) => void
   onCloseTab: (path: string) => void
   repo: SnippetRepo
-  highlightPath?: string
-  highlightLine?: number
 }) {
   const [files, setFiles] = useState<Record<string, SourceFileResult>>({})
   const tabsRef = useRef<HTMLDivElement>(null)
@@ -52,38 +48,47 @@ export function CodeViewer({
         >
           <ChevronLeftIcon className="h-4 w-4" />
         </button>
-        <div ref={tabsRef} className="flex flex-1 overflow-x-auto">
-          {openPaths.map((path) => (
-            <button
-              key={path}
-              type="button"
-              onClick={() => onSelectTab(path)}
-              className={`flex shrink-0 items-center gap-2 border-r border-slate-100 px-3 py-2.5 text-sm ${
-                path === activePath ? 'bg-slate-50 font-semibold text-slate-900' : 'text-slate-500 hover:bg-slate-50'
-              }`}
-            >
-              <span className="max-w-[10rem] truncate font-mono">{basename(path)}</span>
-              <span
-                role="button"
-                tabIndex={0}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  onCloseTab(path)
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault()
+        <div ref={tabsRef} className="flex flex-1 items-center gap-1 overflow-x-auto px-1.5 py-1.5">
+          {openPaths.map((path) => {
+            const isActive = path === activePath
+            return (
+              <button
+                key={path}
+                type="button"
+                onClick={() => onSelectTab(path)}
+                className={`flex shrink-0 items-center gap-2 rounded-md border px-3 py-1 text-sm ${
+                  isActive
+                    ? 'border-blue-300 bg-white font-semibold text-blue-600'
+                    : 'border-transparent bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
+              >
+                <span className="max-w-[10rem] truncate font-mono">{basename(path)}</span>
+                <span
+                  role="button"
+                  tabIndex={0}
+                  onClick={(event) => {
                     event.stopPropagation()
                     onCloseTab(path)
-                  }
-                }}
-                className="rounded p-0.5 text-slate-300 hover:bg-slate-200 hover:text-slate-600"
-                aria-label={`Close ${basename(path)}`}
-              >
-                <CloseIcon className="h-3 w-3" />
-              </span>
-            </button>
-          ))}
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault()
+                      event.stopPropagation()
+                      onCloseTab(path)
+                    }
+                  }}
+                  className={`rounded p-0.5 ${
+                    isActive
+                      ? 'text-blue-400 hover:bg-blue-50 hover:text-blue-600'
+                      : 'text-slate-300 hover:bg-slate-200 hover:text-slate-600'
+                  }`}
+                  aria-label={`Close ${basename(path)}`}
+                >
+                  <CloseIcon className="h-3 w-3" />
+                </span>
+              </button>
+            )
+          })}
         </div>
         <button
           type="button"
@@ -97,12 +102,7 @@ export function CodeViewer({
 
       <div className="min-h-0 flex-1">
         {activePath ? (
-          <CodePreview
-            path={activePath}
-            repo={repo}
-            highlightLine={activePath === highlightPath ? highlightLine : undefined}
-            file={files[activePath]}
-          />
+          <CodePreview path={activePath} repo={repo} file={files[activePath]} />
         ) : (
           <p className="p-4 text-sm text-slate-400">No file open.</p>
         )}
