@@ -3,8 +3,8 @@ import { Navigate, useParams } from 'react-router-dom'
 import { CodeViewer } from '../components/CodeViewer'
 import { SnippetComment } from '../components/SnippetComment'
 import { SnippetNotes } from '../components/SnippetNotes'
-import { getSnippets } from '../data/snippets'
 import { getTopic, type Topic } from '../data/topics'
+import { useSnippets } from '../hooks/useSnippets'
 import type { Snippet } from '../types/snippet'
 import { DEFAULT_REPO } from '../utils/sourceFiles'
 import { slugify } from '../utils/slug'
@@ -88,12 +88,24 @@ function PlayView({ topic, snippet }: { topic: Topic; snippet: Snippet }) {
 
 export function Play() {
   const { theme, snippetId } = useParams<{ theme: string; snippetId: string }>()
-
   const topic = theme ? getTopic(theme) : undefined
-  const snippet = topic ? getSnippets(topic.slug).find((item) => slugify(item.title) === snippetId) : undefined
+  const snippetsState = useSnippets(topic?.slug)
 
-  if (!topic || !snippet) {
-    return <Navigate to={topic ? `/${topic.slug}` : '/'} replace />
+  if (!topic) {
+    return <Navigate to="/" replace />
+  }
+
+  if (snippetsState.status === 'loading') {
+    return <div className="flex h-screen items-center justify-center text-sm text-slate-400">Loading snippet…</div>
+  }
+
+  if (snippetsState.status === 'error') {
+    return <div className="flex h-screen items-center justify-center text-sm text-slate-400">{snippetsState.message}</div>
+  }
+
+  const snippet = snippetsState.snippets.find((item) => slugify(item.title) === snippetId)
+  if (!snippet) {
+    return <Navigate to={`/${topic.slug}`} replace />
   }
 
   return <PlayView key={snippet.snippet_path} topic={topic} snippet={snippet} />

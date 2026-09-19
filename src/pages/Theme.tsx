@@ -5,13 +5,14 @@ import { SnippetCard } from '../components/SnippetCard'
 import { SnippetDialog } from '../components/SnippetDialog'
 import { TopicGraphic } from '../components/TopicGraphic'
 import { getTopic } from '../data/topics'
-import { getSnippets } from '../data/snippets'
 import type { Snippet } from '../types/snippet'
+import { useSnippets } from '../hooks/useSnippets'
 import { topicColorClasses, topicIcons } from '../utils/topicVisuals'
 
 export function Theme() {
   const { theme } = useParams<{ theme: string }>()
   const topic = theme ? getTopic(theme) : undefined
+  const snippetsState = useSnippets(topic?.slug)
   const [activeSnippet, setActiveSnippet] = useState<Snippet | null>(null)
 
   if (!topic) {
@@ -19,7 +20,6 @@ export function Theme() {
   }
 
   const Icon = topicIcons[topic.icon]
-  const snippets = getSnippets(topic.slug)
 
   return (
     <>
@@ -46,11 +46,15 @@ export function Theme() {
 
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-6 py-12">
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {snippets.map((snippet) => (
-              <SnippetCard key={snippet.snippet_path} snippet={snippet} onOpen={setActiveSnippet} />
-            ))}
-          </div>
+          {snippetsState.status === 'loading' && <p className="text-sm text-slate-400">Loading snippets…</p>}
+          {snippetsState.status === 'error' && <p className="text-sm text-slate-400">{snippetsState.message}</p>}
+          {snippetsState.status === 'ready' && (
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {snippetsState.snippets.map((snippet) => (
+                <SnippetCard key={snippet.snippet_path} snippet={snippet} onOpen={setActiveSnippet} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

@@ -1,19 +1,20 @@
 import type { Snippet } from '../types/snippet'
 
-const modules = import.meta.glob<Snippet[]>('../assets/*/index.json', {
-  eager: true,
-  import: 'default',
-})
+export type SnippetsResult = { status: 'ready'; snippets: Snippet[] } | { status: 'error'; message: string }
 
-const snippetsByTheme = new Map<string, Snippet[]>()
+const cache = new Map<string, Promise<SnippetsResult>>()
 
-for (const [path, data] of Object.entries(modules)) {
-  const theme = path.match(/\.\.\/assets\/([^/]+)\/index\.json$/)?.[1]
-  if (theme) {
-    snippetsByTheme.set(theme, data)
+export function fetchSnippets(theme: string): Promise<SnippetsResult> {
+  let pending = cache.get(theme)
+  if (!pending) {
+    pending = fetch(`/theme/${theme}/list.json`)
+      .then(async (res): Promise<SnippetsResult> => {
+        if (!res.ok) return { status: 'error', message: `Failed to load snippets (${res.status})` }
+        const snippets = (await res.json()) as Snippet[]
+        return { status: 'ready', snippets }
+      })
+      .catch((): SnippetsResult => ({ status: 'error', message: 'Failed to load snippets' }))
+    cache.set(theme, pending)
   }
-}
-
-export function getSnippets(theme: string): Snippet[] {
-  return snippetsByTheme.get(theme) ?? []
+  return pending
 }
