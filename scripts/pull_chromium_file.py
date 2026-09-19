@@ -2,8 +2,8 @@
 """Pull one or more files from a Chromium commit and save them under public/.
 
 Fetches raw file content from a googlesource.com Gitiles mirror at a specific
-commit (or ref) and writes each one to public/{commit}/{path}, matching the
-layout the site's CodeViewer fetches from at runtime (see
+commit (or ref) and writes each one to public/chromium/{commit}/{path},
+matching the layout the site's CodeViewer fetches from at runtime (see
 src/utils/sourceFiles.ts).
 
 Usage:
@@ -27,6 +27,7 @@ DEFAULT_REPO = "chromium/src"
 GITILES_HOST = "https://chromium.googlesource.com"
 USER_AGENT = "snippetor-com-pull-chromium-file/1.0"
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
+CHROMIUM_DIR_NAME = "chromium"
 
 
 def gitiles_url(repo: str, commit: str, path: str) -> str:
@@ -49,7 +50,7 @@ def display_path(path: Path) -> str:
 
 
 def pull_one(repo: str, commit: str, path: str, out_dir: Path, force: bool, timeout: float) -> bool:
-    dest = out_dir / commit / path
+    dest = out_dir / CHROMIUM_DIR_NAME / commit / path
     if dest.exists() and not force:
         print(f"skip  {path} (already exists at {display_path(dest)}, use --force to overwrite)")
         return True
@@ -71,7 +72,7 @@ def pull_one(repo: str, commit: str, path: str, out_dir: Path, force: bool, time
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Pull file(s) from a Chromium commit into public/{commit}/{path}.",
+        description="Pull file(s) from a Chromium commit into public/chromium/{commit}/{path}.",
     )
     parser.add_argument("commit", help="Commit SHA (or ref, e.g. 'main') to pull the file(s) at")
     parser.add_argument(

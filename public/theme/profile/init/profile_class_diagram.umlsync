@@ -1,0 +1,204 @@
+{
+  "nameTemplate": "classDiagram",
+  "width": 1212,
+  "height": 857,
+  "elements": [
+    {
+      "width": 180,
+      "height": 80,
+      "left": 130,
+      "top": 88,
+      "operations": [],
+      "attributes": [],
+      "name": "content::BrowserContext",
+      "id": 8,
+      "nameTemplate": "class",
+      "z-index": 5000,
+      "height_a": 20
+    },
+    {
+      "width": 180,
+      "height": 100,
+      "left": 636,
+      "top": 322,
+      "operations": [],
+      "attributes": [],
+      "name": "Profile",
+      "id": 1,
+      "nameTemplate": "class",
+      "z-index": 5001,
+      "height_a": 20
+    },
+    {
+      "width": 220,
+      "height": 220,
+      "left": 66,
+      "top": 450,
+      "operations": [
+        {
+          "id": 0,
+          "text": "GetPath(): base::FilePath"
+        },
+        {
+          "id": 1,
+          "text": "GetPrefs(): PrefService*"
+        },
+        {
+          "id": 2,
+          "text": "GetProfileKey(): ProfileKey*"
+        },
+        {
+          "id": 3,
+          "text": "GetOffTheRecordProfile(otr_profile_id, create_if_needed): Profile*"
+        },
+        {
+          "id": 4,
+          "text": "IsChild(): bool"
+        }
+      ],
+      "attributes": [
+        {
+          "id": 0,
+          "text": "- path_: base::FilePath"
+        },
+        {
+          "id": 1,
+          "text": "- prefs_: unique_ptr<PrefServiceSyncable>"
+        },
+        {
+          "id": 2,
+          "text": "- key_: unique_ptr<ProfileKey>"
+        },
+        {
+          "id": 3,
+          "text": "- otr_profiles_: map<OTRProfileID, unique_ptr<Profile>>"
+        },
+        {
+          "id": 4,
+          "text": "- delegate_: raw_ptr<Profile::Delegate>"
+        }
+      ],
+      "name": "ProfileImpl",
+      "id": 2,
+      "nameTemplate": "class",
+      "z-index": 5002,
+      "height_a": 84
+    },
+    {
+      "width": 220,
+      "height": 100,
+      "left": 560,
+      "top": 584,
+      "operations": [],
+      "attributes": [],
+      "name": "OffTheRecordProfileImpl",
+      "id": 3,
+      "nameTemplate": "class",
+      "z-index": 5003,
+      "height_a": 20
+    },
+    {
+      "width": 180,
+      "height": 100,
+      "left": 888,
+      "top": 592,
+      "operations": [],
+      "attributes": [],
+      "name": "TestingProfile",
+      "id": 4,
+      "nameTemplate": "class",
+      "z-index": 5004,
+      "height_a": 20
+    }
+  ],
+  "connectors": [
+    {
+      "id": 5,
+      "nameTemplate": "generalization",
+      "color": "white",
+      "epoints": [
+        {
+          "id": 1,
+          "x": 176,
+          "y": 106
+        },
+        {
+          "x": 701,
+          "y": 123
+        },
+        {
+          "id": 8,
+          "x": 500,
+          "y": 80
+        }
+      ],
+      "stored": true,
+      "z-index": 5005
+    },
+    {
+      "id": 6,
+      "nameTemplate": "generalization",
+      "color": "white",
+      "epoints": [
+        {
+          "id": 2,
+          "x": 586,
+          "y": 404
+        },
+        {
+          "x": 201,
+          "y": 372
+        },
+        {
+          "id": 1,
+          "x": 176,
+          "y": 106
+        }
+      ],
+      "stored": true,
+      "z-index": 5006
+    },
+    {
+      "id": 7,
+      "nameTemplate": "generalization",
+      "color": "white",
+      "epoints": [
+        {
+          "id": 3,
+          "x": 860,
+          "y": 328
+        },
+        {
+          "x": 667,
+          "y": 535
+        },
+        {
+          "id": 1,
+          "x": 176,
+          "y": 106
+        }
+      ],
+      "stored": true,
+      "z-index": 5007
+    },
+    {
+      "id": 8,
+      "nameTemplate": "generalization",
+      "color": "white",
+      "epoints": [
+        {
+          "id": 4,
+          "x": 794,
+          "y": 54
+        },
+        {
+          "id": 1,
+          "x": 176,
+          "y": 106
+        }
+      ],
+      "stored": true,
+      "z-index": 5008
+    }
+  ]
+}

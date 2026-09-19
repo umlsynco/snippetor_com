@@ -1,0 +1,80 @@
+{
+  "content": {
+    "schema": 2,
+    "title": "ProfileImpl lifecycle: init, storage, deletion",
+    "description": "Where a ProfileImpl instance is created, where ProfileManager keeps ownership of it, and where it gets destroyed.",
+    "version": 0,
+    "created": 1789777314293,
+    "modified": 1789777314293,
+    "repos": [
+      {
+        "id": 0,
+        "url": "https://chromium.googlesource.com/chromium/src.git",
+        "commitId": "51e63847394bd0afc3885e32a3ee77751beb1d11",
+        "branch": ""
+      }
+    ],
+    "notes": [
+      {
+        "path": "chrome/browser/profiles/profile_manager.cc",
+        "line": 796,
+        "text": "One level up: ProfileManager::GetProfile() first checks for an already-loaded profile, and if none exists, calls CreateAndInitializeProfile() with CreateProfileHelper bound as the synchronous creation callback.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile_manager.cc",
+        "line": 1324,
+        "text": "ProfileManager asks Profile::CreateProfile() to build a new profile synchronously or asynchronously — this is the entry point into initialization.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile_impl.cc",
+        "line": 356,
+        "text": "Profile::CreateProfile() (defined in profile_impl.cc) sets up the profile directory and creation time before actually constructing the object.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile_impl.cc",
+        "line": 388,
+        "text": "This is the actual initialization point: `new ProfileImpl(...)` is constructed and immediately wrapped in a unique_ptr<Profile> for ownership.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile_impl.cc",
+        "line": 469,
+        "text": "ProfileImpl's constructor body — initializes path_, io_task_runner_, start_time_ and delegate_ before the rest of profile init runs.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile_manager.h",
+        "line": 660,
+        "text": "Storage: profiles_info_ is the map that owns every loaded Profile object for the lifetime of the browser process — this is 'where it's stored' long-term.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile_manager.cc",
+        "line": 1994,
+        "text": "RegisterOwnedProfile() inserts the freshly created profile (wrapped in a ProfileInfo) into profiles_info_, transferring ownership to ProfileManager.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile_manager.cc",
+        "line": 1518,
+        "text": "One level up: UnloadProfileIfNoKeepAlive() calls UnloadProfile() once the profile's keep-alive refcount hits zero (e.g. last browser window closed) and kDestroyProfileOnBrowserClose is enabled.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile_manager.cc",
+        "line": 1785,
+        "text": "Deletion trigger: UnloadProfile() erases the entry from profiles_info_. That drops the last unique_ptr owning the ProfileImpl, which destroys it synchronously.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile_impl.cc",
+        "line": 958,
+        "text": "ProfileImpl's destructor actually runs here — sends the destroyed notification and tears down pref observers, timers, and other owned state.",
+        "rid": 0
+      }
+    ]
+  }
+}

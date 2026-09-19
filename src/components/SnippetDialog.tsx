@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
+import { useSnippetDetail } from '../hooks/useSnippetDetail'
 import type { Snippet } from '../types/snippet'
 import { slugify } from '../utils/slug'
 import { ChatIcon, ClockIcon, CloseIcon, CodeIcon, DiagramIcon, DocumentIcon, FilesIcon } from './icons'
 
-function formatDate(iso: string) {
-  const date = new Date(iso)
+function formatDate(modified: number) {
+  const date = new Date(modified)
   return {
     day: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
     year: date.toLocaleDateString('en-US', { year: 'numeric' }),
@@ -29,7 +30,8 @@ export function SnippetDialog({ snippet, themeSlug, onClose }: { snippet: Snippe
     }
   }, [onClose])
 
-  const notes = snippet.notes ?? []
+  const detailState = useSnippetDetail(themeSlug, snippet.snippet_path)
+  const notes = detailState.status === 'ready' ? detailState.content.notes : []
   const itemsCount = notes.length
   const notesCount = notes.filter((note) => note.text.trim().length > 0).length
   const diagramsCount = snippet.uml_path ? 1 : 0
@@ -50,7 +52,12 @@ export function SnippetDialog({ snippet, themeSlug, onClose }: { snippet: Snippe
         if (event.target === event.currentTarget) onClose()
       }}
     >
-      <div role="dialog" aria-modal="true" aria-label={snippet.title} className="relative w-full max-w-3xl rounded-2xl border border-slate-200 bg-white shadow-2xl">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={snippet.title}
+        className="relative flex max-h-[85vh] w-full max-w-3xl flex-col rounded-2xl border border-slate-200 bg-white shadow-2xl"
+      >
         <button
           type="button"
           onClick={onClose}
@@ -60,14 +67,14 @@ export function SnippetDialog({ snippet, themeSlug, onClose }: { snippet: Snippe
           <CloseIcon className="h-5 w-5" />
         </button>
 
-        <div className="flex items-center gap-4 border-b border-slate-100 p-8 pb-6">
+        <div className="flex shrink-0 items-center gap-4 border-b border-slate-100 p-8 pb-6">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
             <DocumentIcon className="h-6 w-6" />
           </div>
           <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">{snippet.title}</h2>
         </div>
 
-        <div className="p-8 pt-6">
+        <div className="flex-1 overflow-y-auto p-8 pt-6">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
               <p className="text-sm font-semibold text-blue-700">Title</p>
@@ -78,19 +85,6 @@ export function SnippetDialog({ snippet, themeSlug, onClose }: { snippet: Snippe
               <p className="mt-1 text-slate-600">{snippet.description}</p>
             </div>
           </div>
-
-          {snippet.projects.length > 0 && (
-            <div className="mt-6">
-              <p className="text-sm font-semibold text-blue-700">Tags</p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {snippet.projects.map((tag) => (
-                  <span key={tag} className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-600">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
 
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-5">
             {stats.map(({ icon: Icon, value, label }) => (
@@ -138,11 +132,13 @@ export function SnippetDialog({ snippet, themeSlug, onClose }: { snippet: Snippe
               </div>
             </div>
           )}
+        </div>
 
+        <div className="shrink-0 border-t border-slate-100 p-6">
           <Link
             to={`/${themeSlug}/play/${slugify(snippet.title)}`}
             onClick={onClose}
-            className="mt-8 flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700"
           >
             <CodeIcon className="h-4 w-4" />
             View with code

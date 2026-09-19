@@ -4,35 +4,39 @@
 Takes the path to an already-authored snippet file at
 public/theme/{theme}/{snippet_folder}/{snippet_name}.snippet.json and:
 
-  1. Pulls every note's source file from Chromium into public/{commit}/{path}
+  1. Pulls every note's source file from Chromium into public/chromium/{commit}/{path}
      (via pull_chromium_file.py), skipping notes whose extension isn't
      recognized as code and files that were already pulled.
-  2. Validates the snippet references at least one diagram, and that every
-     diagram file actually sits next to the snippet file.
+  2. Validates that every declared diagram file sits next to the snippet
+     file (diagrams are optional; a snippet with none is fine).
   3. Appends (or updates, if already present) a summary entry for it in
-     public/theme/{theme}/list.json, which is what the site's card grid
-     fetches at runtime.
+     public/theme/{theme}/list.json (title, description, modified, uml_path,
+     snippet_path), which is what the site's card grid fetches at runtime.
+     `modified` is copied through as-is (epoch milliseconds).
 
-Expected snippet file shape (see src/types/snippet.ts):
+Snippet file shape (as authored/exported, schema 2):
 
     {
-      "title": "...",
-      "description": "...",
-      "modified": "2024-09-10",
-      "projects": ["Android", "WebLayer"],
-      "diagrams": ["architecture.svg"],
-      "repo": {
-        "url": "https://chromium.googlesource.com/chromium/src",
-        "commitId": "...",
-        "branch": "main"
-      },
-      "notes": [
-        {"path": "weblayer/browser/browser_impl.cc", "line": 25, "text": "..."}
-      ]
+      "content": {
+        "schema": 2,
+        "title": "...",
+        "description": "...",
+        "modified": 1789777314293,
+        "repos": [
+          {"id": 0, "url": "https://chromium.googlesource.com/chromium/src.git",
+           "commitId": "...", "branch": ""}
+        ],
+        "notes": [
+          {"path": "chrome/browser/profiles/profile.cc", "line": 264, "text": "...", "rid": 0}
+        ],
+        "diagrams": ["architecture.svg"]
+      }
     }
 
-`diagrams` entries are filenames only, resolved relative to the snippet
-file's own folder. `repo` is optional; DEFAULT_REPO is used if absent.
+`diagrams` (optional) entries are filenames only, resolved relative to the
+snippet file's own folder. Each note's `rid` selects which entry of
+`content.repos` it was pulled from; notes with no matching repo (or no
+`repos` at all) fall back to DEFAULT_REPO.
 
 Usage:
     scripts/add_snippet.py public/theme/weblayers/my-snippet/my-snippet.snippet.json
@@ -92,65 +96,87 @@ def load_snippet(snippet_path: Path) -> dict:
     except json.JSONDecodeError as error:
         raise UsageError(f"snippet file is not valid JSON: {error}") from error
 
+    content = data.get("content")
+    if not isinstance(content, dict):
+        raise UsageError("snippet file is missing a top-level 'content' object")
+
     for field in ("title", "description", "modified"):
-        if not data.get(field):
-            raise UsageError(f"snippet file is missing required field: {field!r}")
-    return data
+        if content.get(field) in (None, ""):
+            raise UsageError(f"snippet file is missing required field: 'content.{field}'")
+    return content
 
 
 def repo_gitiles_path(repo: dict) -> str:
     parsed = urlparse(repo["url"])
     if parsed.netloc != GITILES_HOST:
         raise UsageError(f"repo.url must be on {GITILES_HOST}, got: {repo['url']}")
-    return parsed.path.strip("/")
+    path = parsed.path.strip("/")
+    if path.endswith(".git"):
+        path = path[: -len(".git")]
+    return path
 
 
-def notes_to_pull(notes: list[dict]) -> list[str]:
-    paths: list[str] = []
-    seen: set[str] = set()
+def repo_for_note(note: dict, repos_by_id: dict[int, dict]) -> dict:
+    if repos_by_id:
+        repo = repos_by_id.get(note.get("rid"))
+        if repo is not None:
+            return repo
+    return DEFAULT_REPO
+
+
+def pull_source_files(content: dict, public_dir: Path, timeout: float) -> None:
+    notes = content.get("notes") or []
+    repos_by_id = {repo["id"]: repo for repo in content.get("repos") or [] if "id" in repo}
+
+    groups: dict[tuple[str, str], list[str]] = {}
+    seen: dict[tuple[str, str], set[str]] = {}
     for note in notes:
         path = note.get("path")
-        if not path or path in seen:
+        if not path:
             continue
-        seen.add(path)
         if Path(path).suffix.lower() not in ACCEPTABLE_CODE_EXTENSIONS:
             print(f"skip note (not a recognized code extension): {path}")
             continue
-        paths.append(path)
-    return paths
 
+        repo = repo_for_note(note, repos_by_id)
+        key = (repo_gitiles_path(repo), repo.get("commitId", DEFAULT_REPO["commitId"]))
+        group_seen = seen.setdefault(key, set())
+        if path in group_seen:
+            continue
+        group_seen.add(path)
+        groups.setdefault(key, []).append(path)
 
-def pull_source_files(data: dict, public_dir: Path, timeout: float) -> None:
-    notes = data.get("notes") or []
-    paths = notes_to_pull(notes)
-    if not paths:
+    if not groups:
         print("no source files to pull")
         return
 
-    repo = data.get("repo") or DEFAULT_REPO
-    gitiles_repo = repo_gitiles_path(repo)
+    failed = False
+    for (gitiles_repo, commit_id), paths in groups.items():
+        command = [
+            sys.executable,
+            str(PULL_SCRIPT),
+            commit_id,
+            *paths,
+            "--repo",
+            gitiles_repo,
+            "--out-dir",
+            str(public_dir),
+            "--timeout",
+            str(timeout),
+        ]
+        result = subprocess.run(command)
+        if result.returncode != 0:
+            failed = True
 
-    command = [
-        sys.executable,
-        str(PULL_SCRIPT),
-        repo["commitId"],
-        *paths,
-        "--repo",
-        gitiles_repo,
-        "--out-dir",
-        str(public_dir),
-        "--timeout",
-        str(timeout),
-    ]
-    result = subprocess.run(command)
-    if result.returncode != 0:
+    if failed:
         raise UsageError("failed to pull one or more source files, stopping (see errors above)")
 
 
-def validate_diagrams(data: dict, snippet_path: Path) -> None:
-    diagrams = data.get("diagrams") or []
+def validate_diagrams(content: dict, snippet_path: Path) -> list[str]:
+    diagrams = content.get("diagrams") or []
     if not diagrams:
-        raise UsageError("snippet must reference at least one diagram in 'diagrams'")
+        print("no diagrams declared for this snippet")
+        return []
 
     missing = [name for name in diagrams if not (snippet_path.parent / name).is_file()]
     if missing:
@@ -158,21 +184,27 @@ def validate_diagrams(data: dict, snippet_path: Path) -> None:
             "diagram file(s) not found next to the snippet file "
             f"({snippet_path.parent}): {', '.join(missing)}"
         )
+    return diagrams
 
 
-def update_list_json(public_dir: Path, theme: str, snippet_folder: str, snippet_name: str, data: dict) -> None:
+def update_list_json(
+    public_dir: Path,
+    theme: str,
+    snippet_folder: str,
+    snippet_name: str,
+    content: dict,
+    diagrams: list[str],
+) -> None:
     list_path = public_dir / "theme" / theme / "list.json"
     entries = []
     if list_path.is_file():
         entries = json.loads(list_path.read_text())
 
-    diagrams = data.get("diagrams") or []
     entry = {
-        "title": data["title"],
-        "description": data["description"],
-        "modified": data["modified"],
-        "projects": data.get("projects", []),
-        "uml_path": f"{snippet_folder}/{diagrams[0]}",
+        "title": content["title"],
+        "description": content["description"],
+        "modified": content["modified"],
+        "uml_path": f"{snippet_folder}/{diagrams[0]}" if diagrams else "",
         "snippet_path": f"{snippet_folder}/{snippet_name}",
     }
 
@@ -186,11 +218,11 @@ def update_list_json(public_dir: Path, theme: str, snippet_folder: str, snippet_
 
 def add_snippet(snippet_path: Path, timeout: float) -> None:
     public_dir, theme, snippet_folder = locate_theme_dirs(snippet_path)
-    data = load_snippet(snippet_path)
+    content = load_snippet(snippet_path)
 
-    pull_source_files(data, public_dir, timeout)
-    validate_diagrams(data, snippet_path)
-    update_list_json(public_dir, theme, snippet_folder, snippet_path.name, data)
+    pull_source_files(content, public_dir, timeout)
+    diagrams = validate_diagrams(content, snippet_path)
+    update_list_json(public_dir, theme, snippet_folder, snippet_path.name, content, diagrams)
 
 
 def main() -> int:

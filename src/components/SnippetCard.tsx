@@ -1,8 +1,8 @@
 import type { Snippet } from '../types/snippet'
 import { ArrowRightIcon, PlayIcon } from './icons'
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', {
+function formatDate(modified: number) {
+  return new Date(modified).toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',

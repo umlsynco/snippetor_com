@@ -12,7 +12,7 @@ export function repoShortName(repo: SnippetRepo): string {
 }
 
 export function sourceFileUrl(repo: SnippetRepo, path: string): string {
-  return `/${repo.commitId}/${path}`
+  return `/chromium/${repo.commitId}/${path}`
 }
 
 export type SourceFileResult = { status: 'ready'; content: string } | { status: 'error'; message: string }

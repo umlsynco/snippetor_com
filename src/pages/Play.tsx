@@ -4,14 +4,27 @@ import { CodeViewer } from '../components/CodeViewer'
 import { SnippetComment } from '../components/SnippetComment'
 import { SnippetNotes } from '../components/SnippetNotes'
 import { getTopic, type Topic } from '../data/topics'
+import { useSnippetDetail } from '../hooks/useSnippetDetail'
 import { useSnippets } from '../hooks/useSnippets'
-import type { Snippet } from '../types/snippet'
+import type { SnippetContent, SnippetRepo } from '../types/snippet'
 import { DEFAULT_REPO } from '../utils/sourceFiles'
 import { slugify } from '../utils/slug'
 
-function PlayView({ topic, snippet }: { topic: Topic; snippet: Snippet }) {
-  const notes = snippet.notes ?? []
-  const repo = snippet.repo ?? DEFAULT_REPO
+// Notes reference their repo by `rid` into `content.repos`; the viewer only
+// renders against a single repo at a time, so the first note's repo stands
+// in for the whole snippet (every snippet authored so far has just one).
+function resolveRepo(content: SnippetContent): SnippetRepo {
+  const repoById = new Map<number, SnippetRepo>()
+  for (const repo of content.repos ?? []) {
+    if (repo.id !== undefined) repoById.set(repo.id, repo)
+  }
+  const rid = content.notes[0]?.rid
+  return (rid !== undefined ? repoById.get(rid) : undefined) ?? content.repos?.[0] ?? DEFAULT_REPO
+}
+
+function PlayView({ topic, content }: { topic: Topic; content: SnippetContent }) {
+  const notes = content.notes ?? []
+  const repo = resolveRepo(content)
   const uniquePaths = Array.from(new Set(notes.map((note) => note.path)))
 
   const [activeIndex, setActiveIndex] = useState(0)
@@ -108,5 +121,19 @@ export function Play() {
     return <Navigate to={`/${topic.slug}`} replace />
   }
 
-  return <PlayView key={snippet.snippet_path} topic={topic} snippet={snippet} />
+  return <PlayDetail key={snippet.snippet_path} topic={topic} theme={topic.slug} snippetPath={snippet.snippet_path} />
+}
+
+function PlayDetail({ topic, theme, snippetPath }: { topic: Topic; theme: string; snippetPath: string }) {
+  const detailState = useSnippetDetail(theme, snippetPath)
+
+  if (detailState.status === 'loading') {
+    return <div className="flex h-screen items-center justify-center text-sm text-slate-400">Loading snippet…</div>
+  }
+
+  if (detailState.status === 'error') {
+    return <div className="flex h-screen items-center justify-center text-sm text-slate-400">{detailState.message}</div>
+  }
+
+  return <PlayView topic={topic} content={detailState.content} />
 }

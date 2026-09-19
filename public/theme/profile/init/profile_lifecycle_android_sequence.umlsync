@@ -1,0 +1,363 @@
+{
+  "nameTemplate": "sequenceDiagram",
+  "width": 1300,
+  "height": 1600,
+  "elements": [
+    {
+      "id": 1,
+      "nameTemplate": "sqobject_instance",
+      "left": 40,
+      "top": 20,
+      "width": 160,
+      "height": 1520,
+      "name": "ProfileManager (Java)"
+    },
+    {
+      "id": 2,
+      "nameTemplate": "sqobject_instance",
+      "left": 340,
+      "top": 20,
+      "width": 160,
+      "height": 1520,
+      "name": "ProfileManager (native)"
+    },
+    {
+      "id": 3,
+      "nameTemplate": "sqobject_instance",
+      "left": 640,
+      "top": 20,
+      "width": 200,
+      "height": 1520,
+      "name": "Profile / ProfileImpl (native)"
+    },
+    {
+      "id": 4,
+      "nameTemplate": "sqobject_instance",
+      "left": 980,
+      "top": 20,
+      "width": 160,
+      "height": 1520,
+      "name": "Profile (Java wrapper)"
+    },
+    {
+      "id": 5,
+      "nameTemplate": "note",
+      "left": 300,
+      "top": 705,
+      "width": 500,
+      "height": 40,
+      "name": "Time passes — profile stays alive until refcount drops or process shuts down"
+    },
+    {
+      "id": 6,
+      "nameTemplate": "sqdestroy",
+      "left": 710,
+      "top": 1460,
+      "width": 60,
+      "height": 60,
+      "name": "Destroy"
+    },
+    {
+      "id": 7,
+      "nameTemplate": "sqport",
+      "left": 112,
+      "top": 60,
+      "width": 16,
+      "height": 615
+    },
+    {
+      "id": 8,
+      "nameTemplate": "sqport",
+      "left": 412,
+      "top": 60,
+      "width": 16,
+      "height": 615
+    },
+    {
+      "id": 9,
+      "nameTemplate": "sqport",
+      "left": 732,
+      "top": 185,
+      "width": 16,
+      "height": 245
+    },
+    {
+      "id": 10,
+      "nameTemplate": "sqport",
+      "left": 1052,
+      "top": 310,
+      "width": 16,
+      "height": 60
+    },
+    {
+      "id": 11,
+      "nameTemplate": "sqport",
+      "left": 112,
+      "top": 990,
+      "width": 16,
+      "height": 125
+    },
+    {
+      "id": 12,
+      "nameTemplate": "sqport",
+      "left": 732,
+      "top": 800,
+      "width": 16,
+      "height": 625
+    },
+    {
+      "id": 13,
+      "nameTemplate": "sqport",
+      "left": 1052,
+      "top": 865,
+      "width": 16,
+      "height": 310
+    },
+    {
+      "id": 14,
+      "nameTemplate": "sqport",
+      "left": 1052,
+      "top": 1300,
+      "width": 16,
+      "height": 125
+    }
+  ],
+  "connectors": [
+    {
+      "id": 15,
+      "nameTemplate": "sqsyncmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 7, "x": 120, "y": 60 },
+        { "id": 8, "x": 420, "y": 60 }
+      ],
+      "labels": [{ "id": 16, "text": "getLastUsedRegularProfile()", "left": 270, "top": 50 }]
+    },
+    {
+      "id": 17,
+      "nameTemplate": "sqselfmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 8, "x": 420, "y": 120 },
+        { "x": 460, "y": 120 },
+        { "x": 460, "y": 145 },
+        { "id": 8, "x": 420, "y": 145 }
+      ],
+      "labels": [{ "id": 18, "text": "GetLastUsedProfile() [create if not loaded]", "left": 480, "top": 122 }]
+    },
+    {
+      "id": 19,
+      "nameTemplate": "sqsyncmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 8, "x": 420, "y": 185 },
+        { "id": 9, "x": 740, "y": 185 }
+      ],
+      "labels": [{ "id": 20, "text": "new ProfileImpl(...)", "left": 580, "top": 175 }]
+    },
+    {
+      "id": 21,
+      "nameTemplate": "sqselfmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 9, "x": 740, "y": 245 },
+        { "x": 780, "y": 245 },
+        { "x": 780, "y": 270 },
+        { "id": 9, "x": 740, "y": 270 }
+      ],
+      "labels": [{ "id": 22, "text": "InitJavaObject()", "left": 800, "top": 247 }]
+    },
+    {
+      "id": 23,
+      "nameTemplate": "sqsyncmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 9, "x": 740, "y": 310 },
+        { "id": 10, "x": 1060, "y": 310 }
+      ],
+      "labels": [{ "id": 24, "text": "Java_Profile_Constructor(nativePtr, otrId)", "left": 900, "top": 300 }]
+    },
+    {
+      "id": 25,
+      "nameTemplate": "sqreturnmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 10, "x": 1060, "y": 370 },
+        { "id": 9, "x": 740, "y": 370 }
+      ],
+      "labels": [{ "id": 26, "text": "Profile(Java) created", "left": 900, "top": 360 }]
+    },
+    {
+      "id": 27,
+      "nameTemplate": "sqreturnmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 9, "x": 740, "y": 430 },
+        { "id": 8, "x": 420, "y": 430 }
+      ],
+      "labels": [{ "id": 28, "text": "profile pointer", "left": 580, "top": 420 }]
+    },
+    {
+      "id": 29,
+      "nameTemplate": "sqsyncmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 8, "x": 420, "y": 490 },
+        { "id": 7, "x": 120, "y": 490 }
+      ],
+      "labels": [{ "id": 30, "text": "Java_ProfileManager_onProfileAdded(profile)", "left": 270, "top": 480 }]
+    },
+    {
+      "id": 31,
+      "nameTemplate": "sqselfmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 7, "x": 120, "y": 550 },
+        { "x": 160, "y": 550 },
+        { "x": 160, "y": 575 },
+        { "id": 7, "x": 120, "y": 575 }
+      ],
+      "labels": [{ "id": 32, "text": "onProfileAdded(): notify Observers", "left": 180, "top": 552 }]
+    },
+    {
+      "id": 33,
+      "nameTemplate": "sqreturnmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 7, "x": 120, "y": 615 },
+        { "id": 8, "x": 420, "y": 615 }
+      ],
+      "labels": [{ "id": 34, "text": "(onProfileAdded returns)", "left": 270, "top": 605 }]
+    },
+    {
+      "id": 35,
+      "nameTemplate": "sqreturnmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 8, "x": 420, "y": 675 },
+        { "id": 7, "x": 120, "y": 675 }
+      ],
+      "labels": [{ "id": 36, "text": "return Profile", "left": 270, "top": 665 }]
+    },
+    {
+      "id": 37,
+      "nameTemplate": "sqselfmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 12, "x": 740, "y": 800 },
+        { "x": 780, "y": 800 },
+        { "x": 780, "y": 825 },
+        { "id": 12, "x": 740, "y": 825 }
+      ],
+      "labels": [{ "id": 38, "text": "~ProfileImpl(): MaybeSendDestroyedNotification()", "left": 800, "top": 802 }]
+    },
+    {
+      "id": 39,
+      "nameTemplate": "sqsyncmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 12, "x": 740, "y": 865 },
+        { "id": 13, "x": 1060, "y": 865 }
+      ],
+      "labels": [{ "id": 40, "text": "Java_Profile_onProfileWillBeDestroyed()", "left": 850, "top": 855 }]
+    },
+    {
+      "id": 41,
+      "nameTemplate": "sqselfmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 13, "x": 1060, "y": 925 },
+        { "x": 1100, "y": 925 },
+        { "x": 1100, "y": 950 },
+        { "id": 13, "x": 1060, "y": 950 }
+      ],
+      "labels": [{ "id": 42, "text": "notifyWillBeDestroyed()", "left": 1120, "top": 927 }]
+    },
+    {
+      "id": 43,
+      "nameTemplate": "sqsyncmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 13, "x": 1060, "y": 990 },
+        { "id": 11, "x": 120, "y": 990 }
+      ],
+      "labels": [{ "id": 44, "text": "ProfileManager.onProfileDestroyed(this)", "left": 590, "top": 980 }]
+    },
+    {
+      "id": 45,
+      "nameTemplate": "sqselfmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 11, "x": 120, "y": 1050 },
+        { "x": 160, "y": 1050 },
+        { "x": 160, "y": 1075 },
+        { "id": 11, "x": 120, "y": 1075 }
+      ],
+      "labels": [{ "id": 46, "text": "notify Observers (onProfileDestroyed)", "left": 180, "top": 1052 }]
+    },
+    {
+      "id": 47,
+      "nameTemplate": "sqreturnmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 11, "x": 120, "y": 1115 },
+        { "id": 13, "x": 1060, "y": 1115 }
+      ],
+      "labels": [{ "id": 48, "text": "(onProfileDestroyed returns)", "left": 590, "top": 1105 }]
+    },
+    {
+      "id": 49,
+      "nameTemplate": "sqreturnmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 13, "x": 1060, "y": 1175 },
+        { "id": 12, "x": 740, "y": 1175 }
+      ],
+      "labels": [{ "id": 50, "text": "(onProfileWillBeDestroyed returns)", "left": 900, "top": 1165 }]
+    },
+    {
+      "id": 51,
+      "nameTemplate": "sqselfmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 12, "x": 740, "y": 1235 },
+        { "x": 780, "y": 1235 },
+        { "x": 780, "y": 1260 },
+        { "id": 12, "x": 740, "y": 1260 }
+      ],
+      "labels": [{ "id": 52, "text": "DestroyJavaObject()", "left": 800, "top": 1237 }]
+    },
+    {
+      "id": 53,
+      "nameTemplate": "sqsyncmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 12, "x": 740, "y": 1300 },
+        { "id": 14, "x": 1060, "y": 1300 }
+      ],
+      "labels": [{ "id": 54, "text": "Java_Profile_onNativeDestroyed()", "left": 850, "top": 1290 }]
+    },
+    {
+      "id": 55,
+      "nameTemplate": "sqselfmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 14, "x": 1060, "y": 1360 },
+        { "x": 1100, "y": 1360 },
+        { "x": 1100, "y": 1385 },
+        { "id": 14, "x": 1060, "y": 1385 }
+      ],
+      "labels": [{ "id": 56, "text": "onNativeDestroyed(): mNativeProfile = 0", "left": 1120, "top": 1362 }]
+    },
+    {
+      "id": 57,
+      "nameTemplate": "sqreturnmessage",
+      "color": "white",
+      "epoints": [
+        { "id": 14, "x": 1060, "y": 1425 },
+        { "id": 12, "x": 740, "y": 1425 }
+      ],
+      "labels": [{ "id": 58, "text": "(onNativeDestroyed returns)", "left": 900, "top": 1415 }]
+    }
+  ]
+}

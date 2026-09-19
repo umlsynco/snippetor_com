@@ -1,0 +1,104 @@
+{
+  "content": {
+    "schema": 2,
+    "title": "Profile lifecycle on Android: Java <-> native bridge",
+    "description": "Same init/storage/deletion path as the desktop ProfileImpl walkthrough, but crossing into Java. On Android, ProfileManager::UnloadProfile() is disabled (#if !IS_ANDROID), so the Java-visible Profile wrapper is instead created/destroyed alongside the native Profile object itself.",
+    "version": 0,
+    "created": 1789777314293,
+    "modified": 1789777314293,
+    "repos": [
+      {
+        "id": 0,
+        "url": "https://chromium.googlesource.com/chromium/src.git",
+        "commitId": "51e63847394bd0afc3885e32a3ee77751beb1d11",
+        "branch": ""
+      }
+    ],
+    "notes": [
+      {
+        "path": "chrome/browser/profiles/android/java/src/org/chromium/chrome/browser/profiles/ProfileManager.java",
+        "line": 97,
+        "text": "Java entry point: ProfileManager.getLastUsedRegularProfile() calls into native via JNI to fetch the wrapped regular Profile. See profile_lifecycle_android_sequence.umlsync for the full Java <-> native sequence this walkthrough covers — creation, the onProfileAdded notification, and the two-step destruction handshake (onProfileWillBeDestroyed then onNativeDestroyed).",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile_manager_android.cc",
+        "line": 31,
+        "text": "JNI bridge: JNI_ProfileManager_GetLastUsedRegularProfile calls the native ProfileManager::GetLastUsedProfile() (the same profile_manager.cc/profile_impl.cc creation path already toured on desktop) and returns its Java wrapper.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile.cc",
+        "line": 264,
+        "text": "Every native Profile (ProfileImpl) constructs its Java wrapper right in its own constructor by calling InitJavaObject().",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile_android.cc",
+        "line": 44,
+        "text": "InitJavaObject() calls Java_Profile_Constructor, creating the Java-side Profile object and handing it the native pointer.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/android/java/src/org/chromium/chrome/browser/profiles/Profile.java",
+        "line": 33,
+        "text": "Java-side storage: the Java Profile object just holds the native pointer in mNativeProfile — there's no separate Java registry map, it's a 1:1 wrapper per native Profile.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile_manager_android.cc",
+        "line": 22,
+        "text": "ProfileManagerAndroid observes the native ProfileManager and forwards profile creation to Java via Java_ProfileManager_onProfileAdded.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/android/java/src/org/chromium/chrome/browser/profiles/ProfileManager.java",
+        "line": 73,
+        "text": "On the Java side, onProfileAdded() marks ProfileManager as initialized and fans the creation event out to registered Java Observers.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile.cc",
+        "line": 501,
+        "text": "Deletion trigger (Android's substitute for the disabled UnloadProfile): MaybeSendDestroyedNotification() calls NotifyJavaOnProfileWillBeDestroyed() before the native object starts tearing down.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile_android.cc",
+        "line": 49,
+        "text": "NotifyJavaOnProfileWillBeDestroyed() calls Java_Profile_onProfileWillBeDestroyed while the native Profile is still fully valid.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/android/java/src/org/chromium/chrome/browser/profiles/Profile.java",
+        "line": 243,
+        "text": "notifyWillBeDestroyed() — invoked from the @CalledByNative onProfileWillBeDestroyed() below — calls ProfileManager.onProfileDestroyed(this), fanning the pre-destruction event out to Java Observers.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile.cc",
+        "line": 270,
+        "text": "The native Profile destructor runs — same ~ProfileImpl() teardown as on desktop — and additionally calls DestroyJavaObject() to invalidate the Java wrapper.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile_android.cc",
+        "line": 53,
+        "text": "DestroyJavaObject() calls Java_Profile_onNativeDestroyed, the final native-to-Java call for this Profile.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/android/java/src/org/chromium/chrome/browser/profiles/Profile.java",
+        "line": 253,
+        "text": "onNativeDestroyed() zeroes out mNativeProfile so the Java wrapper can no longer touch the (now-destroyed) native object.",
+        "rid": 0
+      },
+      {
+        "path": "chrome/browser/profiles/profile_manager_android.cc",
+        "line": 55,
+        "text": "Bonus: for off-the-record profiles, Java can explicitly request destruction via destroyWhenAppropriate() — regular profiles are CHECK'd out here since they stay owned by the native ProfileManager.",
+        "rid": 0
+      }
+    ]
+  }
+}
