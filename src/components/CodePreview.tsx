@@ -9,8 +9,9 @@ import { repoShortName, sourceFileUrl } from '../utils/sourceFiles'
 import { ExternalLinkIcon } from './icons'
 import { SnippetComment } from './SnippetComment'
 
-const DIALOG_LEFT = 600
-const DIALOG_LINE_GAP = 3
+const DIALOG_RIGHT = 28
+const CONNECTOR_ANCHOR_LEFT = 600
+const DIALOG_GAP_PX = 16
 const DIALOG_READY_DELAY = 180
 // Matches SnippetComment's own "duration-150" hide transition, so the scroll
 // only starts once the dialog has actually faded out of view.
@@ -56,7 +57,10 @@ export function CodePreview({ path, repo, file }: { path: string; repo: SnippetR
   }, [file])
 
   const scrollRef = useRef<HTMLDivElement>(null)
+  const dialogWrapRef = useRef<HTMLDivElement>(null)
   const [dialogTop, setDialogTop] = useState<number>()
+  const [connectorTop, setConnectorTop] = useState<number>()
+  const [connectorDialogLeft, setConnectorDialogLeft] = useState<number>()
   const [dialogReady, setDialogReady] = useState(false)
   const dialogReadyTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
   const dialogHideTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
@@ -82,6 +86,7 @@ export function CodePreview({ path, repo, file }: { path: string; repo: SnippetR
 
     if (!highlightLine || file?.status !== 'ready') {
       setDialogTop(undefined)
+      setConnectorTop(undefined)
       prevPathRef.current = path
       return
     }
@@ -92,14 +97,15 @@ export function CodePreview({ path, repo, file }: { path: string; repo: SnippetR
     const containerRect = container.getBoundingClientRect()
     const rowRect = row.getBoundingClientRect()
     const rowTopInScroll = rowRect.top - containerRect.top + container.scrollTop
+    const rowCenterY = rowTopInScroll + rowRect.height / 2
 
     const jitterLines = 0 // Math.floor(Math.random() * 11) - 5
     const targetScrollTop = Math.max(0, rowTopInScroll - container.clientHeight / 3 + jitterLines * rowRect.height)
 
     // Position the dialog in the scrollable content's own coordinate space
-    // (3 lines below the row), so it scrolls together with the code for free
+    // (just under the row), so it scrolls together with the code for free
     // instead of needing to track the row's viewport position on every scroll.
-    const nextDialogTop = rowTopInScroll + rowRect.height * DIALOG_LINE_GAP
+    const nextDialogTop = rowTopInScroll + rowRect.height + DIALOG_GAP_PX
 
     const isSameFile = prevPathRef.current === path
     prevPathRef.current = path
@@ -119,6 +125,7 @@ export function CodePreview({ path, repo, file }: { path: string; repo: SnippetR
           },
           () => {
             setDialogTop(nextDialogTop)
+            setConnectorTop(rowCenterY)
             dialogReadyTimeoutRef.current = setTimeout(() => setDialogReady(true), DIALOG_READY_DELAY)
           },
         )
@@ -129,6 +136,7 @@ export function CodePreview({ path, repo, file }: { path: string; repo: SnippetR
       // React StrictMode) and settle at the wrong offset.
       container.scrollTop = targetScrollTop
       setDialogTop(nextDialogTop)
+      setConnectorTop(rowCenterY)
       dialogReadyTimeoutRef.current = setTimeout(() => setDialogReady(true), DIALOG_READY_DELAY)
     }
   }, [highlightLine, path, file?.status, comment?.index])
@@ -141,15 +149,38 @@ export function CodePreview({ path, repo, file }: { path: string; repo: SnippetR
     }
   }, [])
 
+  // The dialog is pinned to the right edge (`right: DIALOG_RIGHT`), so its
+  // left edge depends on the container's actual rendered width rather than a
+  // fixed offset -- measure it directly to route the connector line there.
+  useEffect(() => {
+    const container = scrollRef.current
+    const dialogEl = dialogWrapRef.current
+    if (!container || !dialogEl || dialogTop === undefined) {
+      setConnectorDialogLeft(undefined)
+      return
+    }
+
+    function measure() {
+      if (!container || !dialogEl) return
+      const containerRect = container.getBoundingClientRect()
+      const dialogRect = dialogEl.getBoundingClientRect()
+      setConnectorDialogLeft(dialogRect.left - containerRect.left + container.scrollLeft)
+    }
+
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [dialogTop, dialogReady])
+
   return (
     <div className="flex h-full flex-col">
-      <div className="relative border-b border-slate-100">
-        <div className="flex items-center gap-2 bg-[#F6F8FAFF] px-4 py-2.5 text-sm text-slate-500">
+      <div className="relative border-b border-[var(--border)]">
+        <div className="flex items-center gap-2 bg-[var(--bg-subtle)] px-4 py-2.5 text-sm text-[var(--text-muted)]">
           <a
             href={sourceFileUrl(repo, path)}
             target="_blank"
             rel="noreferrer"
-            className="shrink-0 text-slate-400 transition hover:text-blue-600"
+            className="shrink-0 text-[var(--text-faint)] transition hover:text-[var(--blue)]"
             aria-label="Open raw file"
           >
             <ExternalLinkIcon className="h-4 w-4" />
@@ -159,10 +190,10 @@ export function CodePreview({ path, repo, file }: { path: string; repo: SnippetR
             {highlightLine ? `;l=${highlightLine}` : ''}
           </span>
         </div>
-        <div key={progressKey} className="file-progress-bar pointer-events-none absolute inset-x-0 top-0 h-0.5 bg-blue-500" />
+        <div key={progressKey} className="file-progress-bar pointer-events-none absolute inset-x-0 top-0 h-0.5 bg-[var(--blue)]" />
       </div>
 
-      <div ref={scrollRef} className="code-block relative flex-1 overflow-auto bg-white font-mono text-[13px] leading-6">
+      <div ref={scrollRef} className="code-block relative flex-1 overflow-auto bg-[var(--bg-page)] font-mono text-[13px] leading-6 text-[var(--text)]">
         {!file && <p className="p-4 text-sm text-slate-400">Loading…</p>}
         {file?.status === 'error' && (
           <p className="p-4 text-sm text-slate-400">{file.message} — preview not available for this file in the demo.</p>
@@ -174,8 +205,12 @@ export function CodePreview({ path, repo, file }: { path: string; repo: SnippetR
                 const lineNumber = index + 1
                 const isActive = lineNumber === highlightLine
                 return (
-                  <tr key={lineNumber} data-line-number={lineNumber} className={isActive ? 'bg-blue-50' : undefined}>
-                    <td className="w-12 select-none border-r border-slate-100 px-2 text-right align-top text-[#7E8BADFF]">
+                  <tr key={lineNumber} data-line-number={lineNumber} className={isActive ? 'bg-[var(--blue-soft)]' : undefined}>
+                    <td
+                      className={`w-12 select-none border-r border-slate-100 px-2 text-right align-top text-[#656d76] ${
+                        isActive ? 'shadow-[inset_2px_0_0_var(--blue)]' : ''
+                      }`}
+                    >
                       {lineNumber}
                     </td>
                     <td className="whitespace-pre px-4">
@@ -188,8 +223,33 @@ export function CodePreview({ path, repo, file }: { path: string; repo: SnippetR
           </table>
         )}
 
+        {isActiveComment && dialogTop !== undefined && connectorTop !== undefined && connectorDialogLeft !== undefined && (
+          <div
+            className={`pointer-events-none absolute inset-0 z-20 transition-opacity duration-150 ${
+              dialogReady ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <span
+              className="absolute rounded-full bg-[var(--blue)]"
+              style={{ top: connectorTop - 3, left: CONNECTOR_ANCHOR_LEFT - 3, width: 6, height: 6 }}
+            />
+            <span
+              className="absolute h-px bg-[var(--blue)]"
+              style={{ top: connectorTop, left: CONNECTOR_ANCHOR_LEFT, width: Math.max(0, connectorDialogLeft - CONNECTOR_ANCHOR_LEFT) }}
+            />
+            <span
+              className="absolute w-px bg-[var(--blue)]"
+              style={{ top: connectorTop, left: connectorDialogLeft, height: Math.max(0, dialogTop - connectorTop) }}
+            />
+            <span
+              className="absolute h-0 w-0 border-x-4 border-x-transparent border-t-[5px] border-t-[var(--blue)]"
+              style={{ top: dialogTop - 1, left: connectorDialogLeft - 4 }}
+            />
+          </div>
+        )}
+
         {isActiveComment && dialogTop !== undefined && (
-          <div className="absolute" style={{ top: dialogTop, left: DIALOG_LEFT }}>
+          <div ref={dialogWrapRef} className="absolute z-20" style={{ top: dialogTop, right: DIALOG_RIGHT }}>
             <SnippetComment
               note={comment.note}
               repo={comment.repo}

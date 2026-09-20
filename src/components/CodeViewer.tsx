@@ -60,12 +60,12 @@ export function CodeViewer({
   }
 
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white">
-      <div className="flex items-center border-b border-slate-100">
+    <div className="flex h-full flex-col overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-page)]">
+      <div className="flex items-center border-b border-[var(--border)] bg-[var(--bg-subtle)]">
         <button
           type="button"
           onClick={() => scrollTabs(-1)}
-          className="flex shrink-0 items-center justify-center px-2 py-2.5 text-slate-400 hover:text-slate-600"
+          className="flex shrink-0 items-center justify-center px-2 py-2.5 text-[var(--text-faint)] hover:text-[var(--text)]"
           aria-label="Scroll tabs left"
         >
           <ChevronLeftIcon className="h-4 w-4" />
@@ -80,8 +80,8 @@ export function CodeViewer({
                 onClick={() => onSelectTab(path)}
                 className={`flex shrink-0 items-center gap-2 rounded-md border px-3 py-1 text-sm ${
                   isActive
-                    ? 'border-blue-300 bg-white font-semibold text-blue-600'
-                    : 'border-transparent bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    ? 'border-[var(--border)] border-b-[var(--bg-page)] bg-[var(--bg-page)] font-semibold text-[var(--text)]'
+                    : 'border-transparent bg-transparent text-[var(--text-muted)] hover:bg-[var(--bg-selected)]'
                 }`}
               >
                 {isDiagramPath(path) && <DiagramIcon className="h-3.5 w-3.5 shrink-0" />}
@@ -100,11 +100,7 @@ export function CodeViewer({
                       onCloseTab(path)
                     }
                   }}
-                  className={`rounded p-0.5 ${
-                    isActive
-                      ? 'text-blue-400 hover:bg-blue-50 hover:text-blue-600'
-                      : 'text-slate-300 hover:bg-slate-200 hover:text-slate-600'
-                  }`}
+                  className="rounded p-0.5 text-[var(--text-faint)] hover:bg-[var(--bg-selected)] hover:text-[var(--text)]"
                   aria-label={`Close ${basename(path)}`}
                 >
                   <CloseIcon className="h-3 w-3" />
@@ -116,7 +112,7 @@ export function CodeViewer({
         <button
           type="button"
           onClick={() => scrollTabs(1)}
-          className="flex shrink-0 items-center justify-center px-2 py-2.5 text-slate-400 hover:text-slate-600"
+          className="flex shrink-0 items-center justify-center px-2 py-2.5 text-[var(--text-faint)] hover:text-[var(--text)]"
           aria-label="Scroll tabs right"
         >
           <ChevronRightIcon className="h-4 w-4" />

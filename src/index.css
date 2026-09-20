@@ -2,6 +2,23 @@
 
 :root {
   color-scheme: light;
+
+  /* GitHub-like neutral surfaces */
+  --bg-page: #ffffff;
+  --bg-subtle: #f6f8fa;
+  --bg-selected: #eaeef2;
+
+  --border: #d0d7de;
+  --border-muted: #d8dee4;
+
+  --text: #1f2328;
+  --text-muted: #59636e;
+  --text-faint: #818b98;
+
+  /* Keep blue for interaction */
+  --blue: #0969da;
+  --blue-soft: #ddf4ff;
+  --blue-border: #54aeff;
 }
 
 body {
