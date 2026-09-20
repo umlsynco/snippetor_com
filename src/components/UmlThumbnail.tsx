@@ -27,8 +27,7 @@ interface DiagramElement {
 // zoom alone can't "zoom out" to reveal more; it only shrinks what already
 // survived that clip). So the world passed to it has to cover the diagram's
 // full extent -- its own declared canvas, widened to fit any element that
-// spills past it -- and zoom is computed from that to fit the whole thing
-// into the thumbnail box instead of an arbitrary crop of it.
+// spills past it.
 function estimateDiagramExtent(model: Record<string, unknown>): { width: number; height: number } {
   let width = Number(model.width) || 1000
   let height = Number(model.height) || 600
@@ -73,9 +72,11 @@ export function UmlThumbnail({ url }: { url: string }) {
 
     const rect = containerRef.current.getBoundingClientRect()
     const extent = estimateDiagramExtent(model)
-    // Shrink the whole (uncropped) extent down to fit the box -- capped at 1
-    // so a diagram smaller than the box isn't blown up past its own size.
-    const zoom = rect.width > 0 && rect.height > 0 ? Math.min(rect.width / extent.width, rect.height / extent.height, 1) : 0.2
+    // Fill the box's full width and let its height run past the box --
+    // the container below clips that overflow instead of shrinking the
+    // diagram further to fit it, so a tall diagram still previews at a
+    // readable size instead of shrinking down to a sliver.
+    const zoom = rect.width > 0 ? rect.width / extent.width : 0.2
 
     const renderer = new (UMLSync as any).DiagramThumbnailRenderer({
       width: extent.width,
@@ -92,7 +93,7 @@ export function UmlThumbnail({ url }: { url: string }) {
     <div
       ref={containerRef}
       id={uniqueIdRef.current}
-      className="absolute inset-0 [&_canvas]:h-full [&_canvas]:w-full [&_svg]:h-full [&_svg]:w-full"
+      className="absolute inset-0 overflow-hidden [&_canvas]:w-full [&_svg]:w-full"
     />
   )
 }

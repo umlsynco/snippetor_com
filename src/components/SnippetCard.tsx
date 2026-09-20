@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom'
 import type { Snippet } from '../types/snippet'
 import { diagramFileUrl } from '../utils/diagramFiles'
+import { slugify } from '../utils/slug'
 import { ArrowRightIcon, PlayIcon } from './icons'
 import { UmlThumbnail } from './UmlThumbnail'
 
@@ -40,15 +42,19 @@ export function SnippetCard({
       <p className="mt-2 text-sm leading-relaxed text-slate-500">{snippet.description}</p>
 
       <div
-        className="group relative mt-4 h-40 w-full shrink-0 cursor-default overflow-hidden rounded-lg border border-slate-200 bg-slate-50"
+        className="group relative mt-auto h-40 w-full shrink-0 cursor-default overflow-hidden rounded-lg border border-slate-200 bg-slate-50"
         onClick={(event) => event.stopPropagation()}
       >
         {snippet.uml_path && <UmlThumbnail url={diagramFileUrl(themeSlug, snippet.uml_path)} />}
-        <div className="absolute inset-0 flex items-center justify-center">
+        <Link
+          to={`/${themeSlug}/play/${slugify(snippet.title)}`}
+          aria-label={`Play ${snippet.title}`}
+          className="absolute inset-0 flex items-center justify-center"
+        >
           <span className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition group-hover:scale-105">
             <PlayIcon className="ml-0.5 h-5 w-5" />
           </span>
-        </div>
+        </Link>
       </div>
 
       <div className="mt-4 flex items-center justify-end">
