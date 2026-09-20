@@ -11,14 +11,17 @@ import { DEFAULT_REPO } from '../utils/sourceFiles'
 import { slugify } from '../utils/slug'
 
 // Notes reference their repo by `rid` into `content.repos`; the viewer only
-// renders against a single repo at a time, so the first note's repo stands
-// in for the whole snippet (every snippet authored so far has just one).
+// renders against a single repo at a time, so the first note with an `rid`
+// stands in for the whole snippet (every snippet authored so far has just
+// one repo). Skips over any leading diagram note (a bare ".umlsync" path,
+// see CodeViewer's isDiagramPath) -- those carry no `rid` since they aren't
+// pulled from a repo at all.
 function resolveRepo(content: SnippetContent): SnippetRepo {
   const repoById = new Map<number, SnippetRepo>()
   for (const repo of content.repos ?? []) {
     if (repo.id !== undefined) repoById.set(repo.id, repo)
   }
-  const rid = content.notes[0]?.rid
+  const rid = content.notes.find((note) => note.rid !== undefined)?.rid
   return (rid !== undefined ? repoById.get(rid) : undefined) ?? content.repos?.[0] ?? DEFAULT_REPO
 }
 
@@ -26,7 +29,17 @@ const MIN_SIDEBAR_WIDTH = 260
 const MAX_SIDEBAR_WIDTH = 560
 const DEFAULT_SIDEBAR_WIDTH = 320
 
-function PlayView({ topic, content }: { topic: Topic; content: SnippetContent }) {
+function PlayView({
+  topic,
+  theme,
+  snippetPath,
+  content,
+}: {
+  topic: Topic
+  theme: string
+  snippetPath: string
+  content: SnippetContent
+}) {
   const notes = content.notes ?? []
   const repo = resolveRepo(content)
   const uniquePaths = Array.from(new Set(notes.map((note) => note.path)))
@@ -130,6 +143,8 @@ function PlayView({ topic, content }: { topic: Topic; content: SnippetContent })
               onSelectTab={setActivePath}
               onCloseTab={closeTab}
               repo={repo}
+              theme={theme}
+              snippetPath={snippetPath}
             />
           ) : (
             <div className="flex h-full items-center justify-center text-sm text-slate-400">
@@ -180,7 +195,7 @@ function PlayDetail({ topic, theme, snippetPath }: { topic: Topic; theme: string
 
   return (
     <CodeCommentServiceProvider>
-      <PlayView topic={topic} content={detailState.content} />
+      <PlayView topic={topic} theme={theme} snippetPath={snippetPath} content={detailState.content} />
     </CodeCommentServiceProvider>
   )
 }

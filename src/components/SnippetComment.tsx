@@ -22,7 +22,7 @@ export function SnippetComment({
 }) {
   return (
     <div
-      className={`flex max-h-[21rem] w-[500px] flex-col rounded-xl border-2 border-[#E5EEFDFF] bg-white p-3 shadow-2xl transition-all duration-150 ease-out ${
+      className={`flex h-[21rem] w-[735px] min-h-[12rem] min-w-[320px] max-w-[90vw] resize flex-col overflow-hidden rounded-xl border-2 border-[#E5EEFDFF] bg-white p-3 shadow-2xl transition-[transform,opacity] duration-150 ease-out ${
         ready
           ? 'translate-x-0 translate-y-0 scale-100 opacity-100'
           : '-translate-x-4 -translate-y-4 scale-90 opacity-0 pointer-events-none'

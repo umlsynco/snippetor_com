@@ -9,7 +9,7 @@ import { repoShortName, sourceFileUrl } from '../utils/sourceFiles'
 import { ExternalLinkIcon } from './icons'
 import { SnippetComment } from './SnippetComment'
 
-const DIALOG_LEFT = 500
+const DIALOG_LEFT = 600
 const DIALOG_LINE_GAP = 3
 const DIALOG_READY_DELAY = 180
 // Matches SnippetComment's own "duration-150" hide transition, so the scroll
@@ -93,7 +93,7 @@ export function CodePreview({ path, repo, file }: { path: string; repo: SnippetR
     const rowRect = row.getBoundingClientRect()
     const rowTopInScroll = rowRect.top - containerRect.top + container.scrollTop
 
-    const jitterLines = Math.floor(Math.random() * 11) - 5
+    const jitterLines = 0 // Math.floor(Math.random() * 11) - 5
     const targetScrollTop = Math.max(0, rowTopInScroll - container.clientHeight / 3 + jitterLines * rowRect.height)
 
     // Position the dialog in the scrollable content's own coordinate space

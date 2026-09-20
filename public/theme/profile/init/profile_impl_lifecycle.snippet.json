@@ -16,6 +16,11 @@
     ],
     "notes": [
       {
+        "path": "profile_class_diagram.umlsync",
+        "line": 1,
+        "text": "Class diagram of the ProfileImpl lifecycle, covering creation, storage, and"
+      },
+      {
         "path": "chrome/browser/profiles/profile_manager.cc",
         "line": 796,
         "text": "One level up: ProfileManager::GetProfile() first checks for an already-loaded profile, and if none exists, calls CreateAndInitializeProfile() with CreateProfileHelper bound as the synchronous creation callback.",
@@ -75,6 +80,7 @@
         "text": "ProfileImpl's destructor actually runs here — sends the destroyed notification and tears down pref observers, timers, and other owned state.",
         "rid": 0
       }
-    ]
+    ],
+    "diagrams": ["profile_class_diagram.umlsync"]
   }
 }

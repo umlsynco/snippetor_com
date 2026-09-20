@@ -115,7 +115,7 @@
     {
       "id": 5,
       "nameTemplate": "generalization",
-      "color": "white",
+      "color": "black",
       "epoints": [
         {
           "id": 1,
@@ -138,7 +138,7 @@
     {
       "id": 6,
       "nameTemplate": "generalization",
-      "color": "white",
+      "color": "black",
       "epoints": [
         {
           "id": 2,
@@ -161,7 +161,7 @@
     {
       "id": 7,
       "nameTemplate": "generalization",
-      "color": "white",
+      "color": "black",
       "epoints": [
         {
           "id": 3,
@@ -184,7 +184,7 @@
     {
       "id": 8,
       "nameTemplate": "generalization",
-      "color": "white",
+      "color": "black",
       "epoints": [
         {
           "id": 4,

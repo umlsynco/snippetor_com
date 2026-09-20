@@ -51,7 +51,7 @@ export function Theme() {
           {snippetsState.status === 'ready' && (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
               {snippetsState.snippets.map((snippet) => (
-                <SnippetCard key={snippet.snippet_path} snippet={snippet} onOpen={setActiveSnippet} />
+                <SnippetCard key={snippet.snippet_path} snippet={snippet} themeSlug={topic.slug} onOpen={setActiveSnippet} />
               ))}
             </div>
           )}

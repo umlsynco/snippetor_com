@@ -66,3 +66,13 @@ body {
 .file-progress-bar {
   animation: file-progress 1s ease-out forwards;
 }
+
+/* Override umlsync's .us-diagram overflow. The vendor stylesheet sets
+   overflow:scroll, but umlsync's DiagramViewer/DiagramEditor also sets
+   overflow-x/overflow-y directly as an inline style via jQuery .css() on
+   every render, which beats any external rule without !important. */
+.us-diagram {
+  overflow: visible !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+}

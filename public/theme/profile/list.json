@@ -3,14 +3,14 @@
     "title": "Profile lifecycle on Android: Java <-> native bridge",
     "description": "Same init/storage/deletion path as the desktop ProfileImpl walkthrough, but crossing into Java. On Android, ProfileManager::UnloadProfile() is disabled (#if !IS_ANDROID), so the Java-visible Profile wrapper is instead created/destroyed alongside the native Profile object itself.",
     "modified": 1789777314293,
-    "uml_path": "",
+    "uml_path": "init/profile_lifecycle_android_sequence.umlsync",
     "snippet_path": "init/profile_impl_lifecycle_android.snippet.json"
   },
   {
     "title": "ProfileImpl lifecycle: init, storage, deletion",
     "description": "Where a ProfileImpl instance is created, where ProfileManager keeps ownership of it, and where it gets destroyed.",
     "modified": 1789777314293,
-    "uml_path": "",
+    "uml_path": "init/profile_class_diagram.umlsync",
     "snippet_path": "init/profile_impl_lifecycle.snippet.json"
   }
 ]

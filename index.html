@@ -6,9 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Chromium Architecture Notes — short code walkthroughs and diagrams from exploring the Chromium codebase." />
     <title>Snippetor · Chromium Architecture Notes</title>
+    <!-- umlsync's UML diagram viewer/thumbnail styles (see public/vendor/umlsync/editor
+         -- copied from the umlsync package's dist/editor, same files it loads itself). -->
+    <link rel="stylesheet" href="/vendor/umlsync/editor/style.css" />
+    <link rel="stylesheet" href="/vendor/umlsync/editor/assets/styles/icons.css" />
   </head>
   <body>
     <div id="root"></div>
+    <!-- umlsync's diagram renderers depend on global jQuery/jQuery UI plus its
+         bundled jquery.editable.js plugin (a plain (function($){...})(jQuery)
+         IIFE, not an ES module) -- loaded as global scripts here, before
+         main.tsx, so `$`/`$.fn.editable` exist by the time UmlViewer/
+         UmlThumbnail construct a UMLSync diagram instance. -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js" integrity="sha512-MSOo1aY+3pXCOCdGAYoBZ6YGI0aragoQsg1mKKBHXCYPIWxamwOE7Drh+N5CPgGI5SA9IEKJiPjdfqWFWmZtRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/vendor/umlsync/editor/assets/js/jquery.editable.js"></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

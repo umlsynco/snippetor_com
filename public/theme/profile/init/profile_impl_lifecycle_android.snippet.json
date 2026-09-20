@@ -16,6 +16,11 @@
     ],
     "notes": [
       {
+        "path": "profile_lifecycle_android_sequence.umlsync",
+        "line": 1,
+        "text": "Sequence diagram of the Java <-> native Profile lifecycle on Android, covering"
+      },
+      {
         "path": "chrome/browser/profiles/android/java/src/org/chromium/chrome/browser/profiles/ProfileManager.java",
         "line": 97,
         "text": "Java entry point: ProfileManager.getLastUsedRegularProfile() calls into native via JNI to fetch the wrapped regular Profile. See profile_lifecycle_android_sequence.umlsync for the full Java <-> native sequence this walkthrough covers — creation, the onProfileAdded notification, and the two-step destruction handshake (onProfileWillBeDestroyed then onNativeDestroyed).",
@@ -99,6 +104,7 @@
         "text": "Bonus: for off-the-record profiles, Java can explicitly request destruction via destroyWhenAppropriate() — regular profiles are CHECK'd out here since they stay owned by the native ProfileManager.",
         "rid": 0
       }
-    ]
+    ],
+    "diagrams": ["profile_lifecycle_android_sequence.umlsync"]
   }
 }
